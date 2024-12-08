@@ -1,8 +1,8 @@
 import { Routes, Route, Outlet } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/user/Home";
-import { Contact, Dashboard, EventDetail, MyEvents, Profile } from "./pages";
-import { Footer, Navbar } from "./components";
+import { Contact, Dashboard, EventDetail, EventRegister, MyEvents, Profile } from "./pages";
+import { AdminSidebar, Footer, Navbar } from "./components";
 
 const UserLayout = () => {
   return (
@@ -17,12 +17,11 @@ const UserLayout = () => {
 const AdminLayout = () => {
   return (
     <>
-      <Navbar />
+      <AdminSidebar />
       <Outlet />
-      <Footer />
     </>
   );
-}
+};
 
 function App() {
   return (
@@ -31,11 +30,14 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/myevents" element={<MyEvents />} />
-        <Route path="/events/:id" element={<EventDetail />} />
+        <Route path="/event/:id" element={<EventDetail />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/event-register" element={<EventRegister />}/>
       </Route>
 
-      <Route path="/admin" element={<Dashboard />} />
+      <Route element={<AdminLayout />}>
+        <Route path="/admin" element={<Dashboard />} />
+      </Route>
     </Routes>
   );
 }
