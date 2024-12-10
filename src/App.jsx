@@ -2,7 +2,7 @@ import { Routes, Route, Outlet } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/user/Home";
 import { Contact, Dashboard, EventDetail, EventRegister, MyEvents, Profile } from "./pages";
-import { AdminSidebar, Footer, Navbar } from "./components";
+import { Footer, Navbar } from "./components";
 
 const UserLayout = () => {
   return (
@@ -17,7 +17,6 @@ const UserLayout = () => {
 const AdminLayout = () => {
   return (
     <>
-      <AdminSidebar />
       <Outlet />
     </>
   );
