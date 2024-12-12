@@ -9,63 +9,18 @@ import {
   Eye,
 } from "lucide-react";
 import Button from "../../components/Button";
+import events from "../../utils/events";
+
 export default function AdminEvents() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState("all");
-
-  const events = [
-    {
-      id: 1,
-      name: "Tech Conference 2024",
-      date: "2024-12-15",
-      time: "09:00 AM",
-      location: "Convention Center",
-      organizer: "John Smith",
-      attendees: 250,
-      status: "upcoming",
-      type: "Conference",
-    },
-    {
-      id: 2,
-      name: "Music Festival",
-      date: "2024-12-20",
-      time: "04:00 PM",
-      location: "City Park",
-      organizer: "Sarah Johnson",
-      attendees: 1000,
-      status: "planning",
-      type: "Festival",
-    },
-    {
-      id: 3,
-      name: "Corporate Workshop",
-      date: "2024-12-10",
-      time: "10:00 AM",
-      location: "Business Center",
-      organizer: "Mike Wilson",
-      attendees: 50,
-      status: "completed",
-      type: "Workshop",
-    },
-    {
-      id: 4,
-      name: "Charity Gala",
-      date: "2024-12-25",
-      time: "07:00 PM",
-      location: "Grand Hotel",
-      organizer: "Emma Davis",
-      attendees: 150,
-      status: "upcoming",
-      type: "Gala",
-    },
-  ];
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedEvents, setSelectedEvents] = useState([]);
 
   const filteredEvents = events.filter((event) => {
     const matchesSearch =
-      event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       event.organizer.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus =
       selectedStatus === "all" || event.status === selectedStatus;
@@ -156,7 +111,7 @@ export default function AdminEvents() {
             </div>
           </div>
           <Button width="w-full sm:w-auto " height="h-12">
-            <Plus size={20} style={{ marginRight: '2px'}}/>
+            <Plus size={20} style={{ marginRight: "2px" }} />
             Add Event
           </Button>
         </div>
@@ -212,7 +167,7 @@ export default function AdminEvents() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="text-sm font-medium text-gray-900">
-                      {event.name}
+                      {event.title}
                     </div>
                     <div className="text-sm text-gray-500">
                       Organized by: {event.organizer}
