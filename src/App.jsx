@@ -10,7 +10,9 @@ import {
   MyEvents,
   Profile,
 } from "./pages";
-import { Footer, Navbar } from "./components";
+import { Footer, Navbar, Sidebar } from "./components";
+import Header from "./components/admin/Header";
+import { useSidebar } from "./context/SidebarContext";
 const UserLayout = () => {
   return (
     <>
@@ -22,10 +24,21 @@ const UserLayout = () => {
 };
 
 const AdminLayout = () => {
+  const { isSidebarOpen } = useSidebar();
   return (
-    <>
-      <Outlet />
-    </>
+    <div className="min-h-screen bg-gray-50">
+      <Sidebar />
+      <div
+        className={`transition-all duration-300 ${
+          isSidebarOpen ? "lg:ml-64" : ""
+        }`}
+      >
+        <Header />
+        <div className="p-4">
+          <Outlet />
+        </div>
+      </div>
+    </div>
   );
 };
 

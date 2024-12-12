@@ -1,9 +1,10 @@
-import { useState } from "react";
 import { Calendar, Users, BarChart3, Settings, X } from "lucide-react";
+import { useSidebar } from "../../context/SidebarContext";
 
 const Sidebar = () => {
-  const [activeTab, setActiveTab] = useState("dashboard");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const { setActiveTab, setIsSidebarOpen, activeTab, isSidebarOpen } =
+    useSidebar();
+
   return (
     <aside
       className={`fixed top-0 left-0 z-40 h-full bg-primary-900 text-white transition-transform duration-300 ease-in-out w-64 
@@ -40,6 +41,7 @@ const Sidebar = () => {
             onClick={() => {
               setActiveTab(item.id);
               window.location.href = item.url;
+              console.log(`navigating to ${item.name}`)
             }}
             className={`w-full flex items-center space-x-3 px-6 py-3 transition-colors duration-200
                 ${activeTab === item.id ? "bg-white/10" : "hover:bg-white/5"}`}
