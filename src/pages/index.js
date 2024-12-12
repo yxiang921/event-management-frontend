@@ -7,3 +7,4 @@ export { default as EventRegister} from "./user/EventRegister";
  
 // Admin
 export { default as Dashboard } from "./admin/dashboard";
+export { default as AdminEvents } from "./admin/AdminEvents";
