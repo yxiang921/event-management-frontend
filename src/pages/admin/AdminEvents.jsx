@@ -8,6 +8,7 @@ import {
   Trash2,
   Eye,
 } from "lucide-react";
+import Button from "../../components/Button";
 export default function AdminEvents() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState("all");
@@ -154,12 +155,10 @@ export default function AdminEvents() {
               )}
             </div>
           </div>
-
-          {/* Add Event Button */}
-          <button className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-primary-900 text-white px-6 py-2 rounded-lg hover:bg-primary-800 transition-colors duration-200">
-            <Plus size={20} />
-            <span>Add Event</span>
-          </button>
+          <Button width="w-full sm:w-auto " height="h-12">
+            <Plus size={20} style={{ marginRight: '2px'}}/>
+            Add Event
+          </Button>
         </div>
       </div>
 
