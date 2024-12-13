@@ -11,7 +11,7 @@ const events = [
     seat: "50",
     type: "Conference",
     organizer: "John Smith",
-    status: "upcoming",
+    status: "approved",
   },
   {
     id: 2,
@@ -26,7 +26,7 @@ const events = [
     seat: "100",
     type: "Conference",
     organizer: "John Smith",
-    status: "upcoming",
+    status: "approved",
   },
   {
     id: 3,
@@ -40,7 +40,7 @@ const events = [
     seat: "30",
     type: "Conference",
     organizer: "John Smith",
-    status: "upcoming",
+    status: "approved",
   },
   {
     id: 4,
@@ -55,7 +55,7 @@ const events = [
     seat: "40",
     type: "Conference",
     organizer: "John Smith",
-    status: "upcoming",
+    status: "approved",
   },
   {
     id: 5,
@@ -70,7 +70,7 @@ const events = [
     seat: "20",
     type: "Conference",
     organizer: "John Smith",
-    status: "upcoming",
+    status: "approved",
   },
   {
     id: 6,
@@ -84,7 +84,7 @@ const events = [
     seat: "60",
     type: "Conference",
     organizer: "John Smith",
-    status: "upcoming",
+    status: "approved",
   },
 ];
 

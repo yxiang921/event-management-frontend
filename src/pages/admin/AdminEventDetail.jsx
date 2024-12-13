@@ -1,23 +1,23 @@
-import { useEffect, useState } from "react";
-import { ChevronLeft, Edit2, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { Ban, Check, ChevronLeft } from "lucide-react";
 import {
+  Button,
   EventActivityTab,
   EventAttendeesTab,
   EventDetailTab,
   EventScheduleTab,
 } from "../../components";
-import events from "../../utils/events";
 
 export default function AdminEventDetail() {
   const [activeTab, setActiveTab] = useState("details");
 
   const getStatusColor = (status) => {
     switch (status) {
-      case "upcoming":
-        return "bg-yellow-100 text-yellow-800";
-      case "completed":
+      case "approved":
         return "bg-green-100 text-green-800";
-      case "cancelled":
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "rejected":
         return "bg-red-100 text-red-800";
       default:
         return "bg-gray-100 text-gray-800";
@@ -27,7 +27,7 @@ export default function AdminEventDetail() {
   const event = {
     id: 1,
     name: "Tech Conference 2024",
-    status: "upcoming",
+    status: "approved",
     date: "2024-12-15",
     time: "09:00 AM - 05:00 PM",
     location: "Convention Center, 123 Main St, City",
@@ -72,7 +72,6 @@ export default function AdminEventDetail() {
     ],
   };
 
-
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       {/* Header */}
@@ -98,15 +97,14 @@ export default function AdminEventDetail() {
             </div>
           </div>
           <div className="flex items-center space-x-3 mt-4 sm:mt-0">
-            <button className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors duration-200">
-              <Edit2 size={20} />
-            </button>
-            <button className="px-4 py-2 border rounded-lg text-red-600 hover:bg-red-50 transition-colors duration-200">
-              <Trash2 size={20} />
-            </button>
-            <button className="px-4 py-2 bg-primary-900 text-white rounded-lg hover:bg-primary-800 transition-colors duration-200">
-              Publish Changes
-            </button>
+            <Button variant="success">
+              <Check size={18} style={{ marginRight: "4px" }} />
+              Approve
+            </Button>
+            <Button variant="danger">
+              <Ban size={18} style={{ marginRight: "4px" }} />
+              Reject
+            </Button>
           </div>
         </div>
       </div>

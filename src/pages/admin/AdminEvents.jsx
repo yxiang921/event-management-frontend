@@ -1,13 +1,5 @@
 import { useState } from "react";
-import {
-  Search,
-  Plus,
-  Filter,
-  ChevronDown,
-  Edit2,
-  Trash2,
-  Eye,
-} from "lucide-react";
+import { Search, Plus, Filter, ChevronDown, Eye } from "lucide-react";
 import Button from "../../components/Button";
 import events from "../../utils/events";
 
@@ -45,12 +37,12 @@ export default function AdminEvents() {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case "upcoming":
-        return "bg-yellow-100 text-yellow-800";
-      case "completed":
+      case "approved":
         return "bg-green-100 text-green-800";
-      case "planning":
-        return "bg-blue-100 text-blue-800";
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "rejected":
+        return "bg-red-100 text-red-800";
       default:
         return "bg-gray-100 text-gray-800";
     }
@@ -196,18 +188,12 @@ export default function AdminEvents() {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-5">
                       <a href={`event/${event.id}`}>
                         <button className="text-gray-600 hover:text-primary-900 transition-colors duration-200">
                           <Eye size={18} />
                         </button>
                       </a>
-                      <button className="text-gray-600 hover:text-primary-900 transition-colors duration-200">
-                        <Edit2 size={18} />
-                      </button>
-                      <button className="text-gray-600 hover:text-red-600 transition-colors duration-200">
-                        <Trash2 size={18} />
-                      </button>
                     </div>
                   </td>
                 </tr>
