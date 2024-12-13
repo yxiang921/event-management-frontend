@@ -15,6 +15,7 @@ import {
   UsersManagement,
   OrganizersManagement,
   Analytics,
+  Settings,
 } from "./pages";
 import { Footer, Navbar, Sidebar } from "./components";
 import Header from "./components/admin/Header";
@@ -70,6 +71,7 @@ function App() {
         <Route path="/admin/organizers" element={<OrganizersManagement />} />
 
         <Route path="/admin/analytics" element={<Analytics />}/>
+        <Route path="/admin/settings" element={<Settings />} />
       </Route>
     </Routes>
   );

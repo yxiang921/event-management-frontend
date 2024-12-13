@@ -1,4 +1,4 @@
-import { Calendar, Users, BarChart3, Settings, X } from "lucide-react";
+import { Calendar, Users, BarChart3, Settings, X, LogOut } from "lucide-react";
 import { useSidebar } from "../../context/SidebarContext";
 
 const Sidebar = () => {
@@ -57,6 +57,12 @@ const Sidebar = () => {
             id: "settings",
             url: "/admin/settings",
           },
+          {
+            name: "Logout",
+            icon: LogOut,
+            id: "logout",
+            url: "/",
+          }
         ].map((item) => (
           <button
             key={item.id}

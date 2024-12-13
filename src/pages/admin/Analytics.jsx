@@ -1,229 +1,259 @@
-import { useEffect } from "react";
-import {
-  Calendar,
-  Users,
-  DollarSign,
-  Activity,
-} from "lucide-react";
-import * as echarts from "echarts";
+import { useEffect } from 'react';
+import * as echarts from 'echarts';
+import { Download, Calendar, Users, DollarSign, TrendingUp } from 'lucide-react';
 
-const mockData = {
-  monthlyEvents: [
-    { month: "Jan", events: 45, revenue: 42000, attendees: 890 },
-    { month: "Feb", events: 52, revenue: 48000, attendees: 1020 },
-    { month: "Mar", events: 38, revenue: 35000, attendees: 760 },
-    { month: "Apr", events: 65, revenue: 58000, attendees: 1250 },
-    { month: "May", events: 48, revenue: 44000, attendees: 950 },
-    { month: "Jun", events: 59, revenue: 52000, attendees: 1150 },
-  ],
-  recentEvents: [
+const Analytics = () => {
+  const stats = [
     {
-      name: "Tech Conference 2024",
-      attendees: 520,
-      revenue: 52000,
-      status: "Completed",
+      title: "Events This Month",
+      value: "28",
+      change: "+12%",
+      icon: <Calendar className="w-6 h-6 text-primary-900" />
     },
     {
-      name: "Music Festival",
-      attendees: 1200,
-      revenue: 89000,
-      status: "Upcoming",
+      title: "Total Attendees",
+      value: "2,450",
+      change: "+25%",
+      icon: <Users className="w-6 h-6 text-primary-900" />
     },
     {
-      name: "Business Summit",
-      attendees: 300,
-      revenue: 45000,
-      status: "In Progress",
+      title: "Revenue Generated",
+      value: "$45,000",
+      change: "+18%",
+      icon: <DollarSign className="w-6 h-6 text-primary-900" />
     },
     {
-      name: "Art Exhibition",
-      attendees: 150,
-      revenue: 15000,
-      status: "Upcoming",
-    },
-  ],
-};
-
-export default function Dashboard() {
+      title: "Growth Rate",
+      value: "24%",
+      change: "+5%",
+      icon: <TrendingUp className="w-6 h-6 text-primary-900" />
+    }
+  ];
 
   useEffect(() => {
-    // Bar and Line Chart
-    const barLineChart = echarts.init(document.getElementById("barLineChart"));
-    const barLineOption = {
+    // Attendance Trend Chart
+    const attendanceChart = echarts.init(document.getElementById('attendanceChart'));
+    const attendanceOption = {
+      title: {
+        text: 'Attendance Trends',
+        left: 'center'
+      },
       tooltip: {
-        trigger: "axis",
-        axisPointer: {
-          type: "cross",
-          crossStyle: {
-            color: "#999",
-          },
-        },
+        trigger: 'axis'
       },
       legend: {
-        data: ["Events", "Revenue", "Attendees"],
+        data: ['Total Attendees', 'New Attendees'],
+        bottom: 0
       },
       xAxis: {
-        type: "category",
-        data: mockData.monthlyEvents.map((item) => item.month),
-        axisPointer: {
-          type: "shadow",
-        },
+        type: 'category',
+        data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
       },
-      yAxis: [
-        {
-          type: "value",
-          name: "Events/Attendees",
-          position: "left",
-        },
-        {
-          type: "value",
-          name: "Revenue",
-          position: "right",
-          axisLabel: {
-            formatter: "${value}",
-          },
-        },
-      ],
+      yAxis: {
+        type: 'value'
+      },
       series: [
         {
-          name: "Events",
-          type: "bar",
-          data: mockData.monthlyEvents.map((item) => item.events),
-          color: "#312e81",
+          name: 'Total Attendees',
+          type: 'line',
+          smooth: true,
+          data: [820, 932, 901, 934, 1290, 1330],
+          lineStyle: {
+            color: '#312e81'
+          }
         },
         {
-          name: "Revenue",
-          type: "line",
-          yAxisIndex: 1,
-          data: mockData.monthlyEvents.map((item) => item.revenue),
-          color: "#059669",
-        },
-        {
-          name: "Attendees",
-          type: "bar",
-          data: mockData.monthlyEvents.map((item) => item.attendees),
-          color: "#9333ea",
-        },
-      ],
+          name: 'New Attendees',
+          type: 'line',
+          smooth: true,
+          data: [320, 332, 301, 334, 390, 330],
+          lineStyle: {
+            color: '#059669'
+          }
+        }
+      ]
     };
-    barLineChart.setOption(barLineOption);
+    attendanceChart.setOption(attendanceOption);
 
-    // Pie Chart
-    const pieChart = echarts.init(document.getElementById("pieChart"));
-    const pieOption = {
+    // Revenue Distribution Chart
+    const revenueChart = echarts.init(document.getElementById('revenueChart'));
+    const revenueOption = {
+      title: {
+        text: 'Revenue by Event Type',
+        left: 'center'
+      },
       tooltip: {
-        trigger: "item",
+        trigger: 'item'
       },
       legend: {
-        orient: "vertical",
-        left: "left",
+        bottom: 0
       },
       series: [
         {
-          name: "Event Status",
-          type: "pie",
-          radius: "70%",
-          data: [
-            { value: 45, name: "Completed", itemStyle: { color: "#059669" } },
-            { value: 35, name: "Upcoming", itemStyle: { color: "#312e81" } },
-            { value: 20, name: "In Progress", itemStyle: { color: "#9333ea" } },
-          ],
-          emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: "rgba(0, 0, 0, 0.5)",
-            },
+          name: 'Revenue',
+          type: 'pie',
+          radius: ['40%', '70%'],
+          avoidLabelOverlap: false,
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2
           },
-        },
-      ],
+          label: {
+            show: false,
+            position: 'center'
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: '14',
+              fontWeight: 'bold'
+            }
+          },
+          labelLine: {
+            show: false
+          },
+          data: [
+            { value: 1048, name: 'Conferences' },
+            { value: 735, name: 'Workshops' },
+            { value: 580, name: 'Seminars' },
+            { value: 484, name: 'Networking' },
+            { value: 300, name: 'Other' }
+          ]
+        }
+      ]
     };
-    pieChart.setOption(pieOption);
+    revenueChart.setOption(revenueOption);
+
+    // Monthly Performance Chart
+    const performanceChart = echarts.init(document.getElementById('performanceChart'));
+    const performanceOption = {
+      title: {
+        text: 'Monthly Performance',
+        left: 'center'
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      legend: {
+        bottom: 0
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '15%',
+        containLabel: true
+      },
+      xAxis: [
+        {
+          type: 'category',
+          data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+        }
+      ],
+      yAxis: [
+        {
+          type: 'value',
+          name: 'Events',
+          min: 0,
+          max: 250
+        }
+      ],
+      series: [
+        {
+          name: 'Completed',
+          type: 'bar',
+          stack: 'total',
+          emphasis: {
+            focus: 'series'
+          },
+          data: [120, 132, 101, 134, 90, 230]
+        },
+        {
+          name: 'Ongoing',
+          type: 'bar',
+          stack: 'total',
+          emphasis: {
+            focus: 'series'
+          },
+          data: [220, 182, 191, 234, 290, 330]
+        },
+        {
+          name: 'Cancelled',
+          type: 'bar',
+          stack: 'total',
+          emphasis: {
+            focus: 'series'
+          },
+          data: [150, 232, 201, 154, 190, 330]
+        }
+      ]
+    };
+    performanceChart.setOption(performanceOption);
 
     // Handle resize
     const handleResize = () => {
-      barLineChart.resize();
-      pieChart.resize();
+      attendanceChart.resize();
+      revenueChart.resize();
+      performanceChart.resize();
     };
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      barLineChart.dispose();
-      pieChart.dispose();
-      window.removeEventListener("resize", handleResize);
+      attendanceChart.dispose();
+      revenueChart.dispose();
+      performanceChart.dispose();
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 md:p-6">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">
-          Analytics
-        </h1>
-        <p className="text-gray-600 mt-2">
-          Overview of your event management metrics
-        </p>
-      </div>
+    <div className="min-h-screen bg-gray-100">
+      <main className="p-6">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-2xl font-semibold text-gray-900">Analytics & Reports</h1>
+          <button className="flex items-center space-x-2 bg-primary-900 text-white px-4 py-2 rounded-lg hover:bg-primary-800 transition-colors duration-200">
+            <Download size={20} />
+            <span>Export Report</span>
+          </button>
+        </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
-          <div className="flex items-center">
-            <Calendar className="w-8 h-8 text-gray-900" />
-            <div className="ml-4">
-              <p className="text-sm text-gray-600">Total Events</p>
-              <p className="text-2xl font-bold text-gray-900">307</p>
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {stats.map((stat, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-200"
+            >
+              <div className="flex items-center justify-between">
+                {stat.icon}
+                <span className="text-green-500 text-sm">{stat.change}</span>
+              </div>
+              <h3 className="text-gray-500 text-sm mt-4">{stat.title}</h3>
+              <p className="text-2xl font-semibold mt-2">{stat.value}</p>
             </div>
+          ))}
+        </div>
+
+        {/* Charts Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <div className="bg-white rounded-lg shadow-sm p-6">
+            <div id="attendanceChart" style={{ height: '400px' }} />
+          </div>
+          <div className="bg-white rounded-lg shadow-sm p-6">
+            <div id="revenueChart" style={{ height: '400px' }} />
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
-          <div className="flex items-center">
-            <Users className="w-8 h-8 text-gray-900" />
-            <div className="ml-4">
-              <p className="text-sm text-gray-600">Total Attendees</p>
-              <p className="text-2xl font-bold text-gray-900">15.2K</p>
-            </div>
-          </div>
+        <div className="bg-white rounded-lg shadow-sm p-6">
+          <div id="performanceChart" style={{ height: '400px' }} />
         </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
-          <div className="flex items-center">
-            <DollarSign className="w-8 h-8 text-gray-900" />
-            <div className="ml-4">
-              <p className="text-sm text-gray-600">Revenue</p>
-              <p className="text-2xl font-bold text-gray-900">$201K</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
-          <div className="flex items-center">
-            <Activity className="w-8 h-8 text-gray-900" />
-            <div className="ml-4">
-              <p className="text-sm text-gray-600">Success Rate</p>
-              <p className="text-2xl font-bold text-gray-900">94%</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-        <div className="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
-            Monthly Performance
-          </h2>
-          <div id="barLineChart" className="w-full h-64" />
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
-            Event Status Distribution
-          </h2>
-          <div id="pieChart" className="w-full h-64" />
-        </div>
-      </div>
+      </main>
     </div>
   );
-}
+};
+
+export default Analytics;
