@@ -14,6 +14,7 @@ import {
   Dashboard,
   UsersManagement,
   OrganizersManagement,
+  Analytics,
 } from "./pages";
 import { Footer, Navbar, Sidebar } from "./components";
 import Header from "./components/admin/Header";
@@ -67,6 +68,8 @@ function App() {
         <Route path="/admin/users" element={<UsersManagement />} />
 
         <Route path="/admin/organizers" element={<OrganizersManagement />} />
+
+        <Route path="/admin/analytics" element={<Analytics />}/>
       </Route>
     </Routes>
   );
