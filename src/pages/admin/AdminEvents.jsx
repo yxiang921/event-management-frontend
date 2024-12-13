@@ -197,9 +197,11 @@ export default function AdminEvents() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <div className="flex items-center space-x-3">
-                      <button className="text-gray-600 hover:text-primary-900 transition-colors duration-200">
-                        <Eye size={18} />
-                      </button>
+                      <a href={`event/${event.id}`}>
+                        <button className="text-gray-600 hover:text-primary-900 transition-colors duration-200">
+                          <Eye size={18} />
+                        </button>
+                      </a>
                       <button className="text-gray-600 hover:text-primary-900 transition-colors duration-200">
                         <Edit2 size={18} />
                       </button>

@@ -1,14 +1,17 @@
 import { Routes, Route, Outlet } from "react-router-dom";
 import "./App.css";
-import Home from "./pages/user/Home";
 import {
-  AdminEvents,
   Contact,
-  Dashboard,
   EventDetail,
   EventRegister,
   MyEvents,
   Profile,
+  Home,
+
+  // Admin
+  AdminEvents,
+  AdminEventDetail,
+  Dashboard,
 } from "./pages";
 import { Footer, Navbar, Sidebar } from "./components";
 import Header from "./components/admin/Header";
@@ -57,6 +60,7 @@ function App() {
       <Route element={<AdminLayout />}>
         <Route path="/admin" element={<Dashboard />} />
         <Route path="/admin/events" element={<AdminEvents />} />
+        <Route path="/admin/event/:id" element={<AdminEventDetail />} />
       </Route>
     </Routes>
   );
