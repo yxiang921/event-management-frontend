@@ -46,12 +46,6 @@ const Sidebar = () => {
             url: "/admin/organizers",
           },
           {
-            name: "Admins",
-            icon: Users,
-            id: "admins",
-            url: "/admin/admins",
-          },
-          {
             name: "Analytics",
             icon: BarChart3,
             id: "analytics",
