@@ -12,6 +12,8 @@ import {
   AdminEvents,
   AdminEventDetail,
   Dashboard,
+  UsersManagement,
+  OrganizersManagement,
 } from "./pages";
 import { Footer, Navbar, Sidebar } from "./components";
 import Header from "./components/admin/Header";
@@ -61,6 +63,10 @@ function App() {
         <Route path="/admin" element={<Dashboard />} />
         <Route path="/admin/events" element={<AdminEvents />} />
         <Route path="/admin/event/:id" element={<AdminEventDetail />} />
+
+        <Route path="/admin/users" element={<UsersManagement />} />
+
+        <Route path="/admin/organizers" element={<OrganizersManagement />} />
       </Route>
     </Routes>
   );

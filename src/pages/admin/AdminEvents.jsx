@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Search, Plus, Filter, ChevronDown, Eye } from "lucide-react";
-import Button from "../../components/Button";
+import { Search, Filter, ChevronDown, Eye } from "lucide-react";
 import events from "../../utils/events";
 
 export default function AdminEvents() {
@@ -79,7 +78,7 @@ export default function AdminEvents() {
               </button>
               {filterOpen && (
                 <div className="absolute mt-2 w-48 bg-white rounded-lg shadow-lg border p-2 z-10">
-                  {["all", "upcoming", "planning", "completed"].map(
+                  {["all", "approved", "pending", "rejected"].map(
                     (status) => (
                       <button
                         key={status}
@@ -102,10 +101,6 @@ export default function AdminEvents() {
               )}
             </div>
           </div>
-          <Button width="w-full sm:w-auto " height="h-12">
-            <Plus size={20} style={{ marginRight: "2px" }} />
-            Add Event
-          </Button>
         </div>
       </div>
 

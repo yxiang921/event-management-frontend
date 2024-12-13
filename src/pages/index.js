@@ -9,3 +9,5 @@ export { default as EventRegister} from "./user/EventRegister";
 export { default as Dashboard } from "./admin/dashboard";
 export { default as AdminEvents } from "./admin/AdminEvents";
 export { default as AdminEventDetail } from "./admin/AdminEventDetail";
+export { default as UsersManagement } from "./admin/UsersManagement";
+export { default as OrganizersManagement } from "./admin/OrganizersManagement";

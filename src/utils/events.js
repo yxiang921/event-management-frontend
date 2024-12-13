@@ -26,7 +26,7 @@ const events = [
     seat: "100",
     type: "Conference",
     organizer: "John Smith",
-    status: "approved",
+    status: "pending",
   },
   {
     id: 3,
@@ -40,7 +40,7 @@ const events = [
     seat: "30",
     type: "Conference",
     organizer: "John Smith",
-    status: "approved",
+    status: "pending",
   },
   {
     id: 4,
@@ -55,7 +55,7 @@ const events = [
     seat: "40",
     type: "Conference",
     organizer: "John Smith",
-    status: "approved",
+    status: "rejected",
   },
   {
     id: 5,

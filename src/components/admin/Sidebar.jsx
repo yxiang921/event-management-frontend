@@ -33,15 +33,43 @@ const Sidebar = () => {
             id: "events",
             url: "/admin/events",
           },
-          { name: "Attendees", icon: Users, id: "attendees" },
-          { name: "Settings", icon: Settings, id: "settings" },
+          {
+            name: "Users",
+            icon: Users,
+            id: "users",
+            url: "/admin/users",
+          },
+          {
+            name: "Organizers",
+            icon: Users,
+            id: "organizers",
+            url: "/admin/organizers",
+          },
+          {
+            name: "Admins",
+            icon: Users,
+            id: "admins",
+            url: "/admin/admins",
+          },
+          {
+            name: "Analytics",
+            icon: BarChart3,
+            id: "analytics",
+            url: "/admin/analytics",
+          },
+          {
+            name: "Settings",
+            icon: Settings,
+            id: "settings",
+            url: "/admin/settings",
+          },
         ].map((item) => (
           <button
             key={item.id}
             onClick={() => {
               setActiveTab(item.id);
               window.location.href = item.url;
-              console.log(`navigating to ${item.name}`)
+              console.log(`navigating to ${item.name}`);
             }}
             className={`w-full flex items-center space-x-3 px-6 py-3 transition-colors duration-200
                 ${activeTab === item.id ? "bg-white/10" : "hover:bg-white/5"}`}
