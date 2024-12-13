@@ -1,23 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { ChevronLeft, Edit2, Trash2 } from "lucide-react";
 import {
-  ChevronLeft,
-  Calendar,
-  Clock,
-  MapPin,
-  Users,
-  Edit2,
-  Trash2,
-  Mail,
-  Phone,
-  Download,
-  Share2,
-  MessageSquare,
-  CheckCircle,
-  AlertCircle,
-} from "lucide-react";
+  EventActivityTab,
+  EventAttendeesTab,
+  EventDetailTab,
+  EventScheduleTab,
+} from "../../components";
+import events from "../../utils/events";
 
 export default function AdminEventDetail() {
   const [activeTab, setActiveTab] = useState("details");
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "upcoming":
+        return "bg-yellow-100 text-yellow-800";
+      case "completed":
+        return "bg-green-100 text-green-800";
+      case "cancelled":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
 
   const event = {
     id: 1,
@@ -67,18 +72,6 @@ export default function AdminEventDetail() {
     ],
   };
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "upcoming":
-        return "bg-yellow-100 text-yellow-800";
-      case "completed":
-        return "bg-green-100 text-green-800";
-      case "cancelled":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -141,211 +134,13 @@ export default function AdminEventDetail() {
 
         {/* Tab Content */}
         <div className="p-6">
-          {activeTab === "details" && (
-            <div className="space-y-6">
-              {/* Event Information */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <h3 className="text-lg font-medium text-gray-900">
-                    Event Information
-                  </h3>
-                  <div className="space-y-3">
-                    <div className="flex items-start">
-                      <Calendar className="w-5 h-5 text-gray-400 mt-0.5" />
-                      <div className="ml-3">
-                        <p className="text-sm font-medium text-gray-900">
-                          Date
-                        </p>
-                        <p className="text-sm text-gray-500">{event.date}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start">
-                      <Clock className="w-5 h-5 text-gray-400 mt-0.5" />
-                      <div className="ml-3">
-                        <p className="text-sm font-medium text-gray-900">
-                          Time
-                        </p>
-                        <p className="text-sm text-gray-500">{event.time}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start">
-                      <MapPin className="w-5 h-5 text-gray-400 mt-0.5" />
-                      <div className="ml-3">
-                        <p className="text-sm font-medium text-gray-900">
-                          Location
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          {event.location}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+          {activeTab === "details" && <EventDetailTab event={event} />}
 
-                <div className="space-y-4">
-                  <h3 className="text-lg font-medium text-gray-900">
-                    Organizer Details
-                  </h3>
-                  <div className="space-y-3">
-                    <div className="flex items-start">
-                      <Users className="w-5 h-5 text-gray-400 mt-0.5" />
-                      <div className="ml-3">
-                        <p className="text-sm font-medium text-gray-900">
-                          Organizer
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          {event.organizer}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-start">
-                      <Mail className="w-5 h-5 text-gray-400 mt-0.5" />
-                      <div className="ml-3">
-                        <p className="text-sm font-medium text-gray-900">
-                          Email
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          john.smith@example.com
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-start">
-                      <Phone className="w-5 h-5 text-gray-400 mt-0.5" />
-                      <div className="ml-3">
-                        <p className="text-sm font-medium text-gray-900">
-                          Phone
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          +1 (555) 123-4567
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          {activeTab === "attendees" && <EventAttendeesTab event={event} />}
 
-              {/* Ticket Information */}
-              <div className="mt-8">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">
-                  Ticket Information
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-500">Tickets Sold</p>
-                    <p className="text-2xl font-semibold mt-1">
-                      {event.tickets.sold}
-                    </p>
-                  </div>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-500">Available Tickets</p>
-                    <p className="text-2xl font-semibold mt-1">
-                      {event.tickets.available}
-                    </p>
-                  </div>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-500">Ticket Price</p>
-                    <p className="text-2xl font-semibold mt-1">
-                      {event.tickets.price}
-                    </p>
-                  </div>
-                </div>
-              </div>
+          {activeTab === "schedule" && <EventScheduleTab event={event} />}
 
-              {/* Description */}
-              <div className="mt-8">
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  Description
-                </h3>
-                <p className="text-gray-600">{event.description}</p>
-              </div>
-            </div>
-          )}
-
-          {activeTab === "attendees" && (
-            <div className="space-y-6">
-              {/* Attendee Stats */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-500">Total Registrations</p>
-                  <p className="text-2xl font-semibold mt-1">
-                    {event.attendees.total}
-                  </p>
-                </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-500">Confirmed</p>
-                  <p className="text-2xl font-semibold mt-1">
-                    {event.attendees.confirmed}
-                  </p>
-                </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-500">Pending</p>
-                  <p className="text-2xl font-semibold mt-1">
-                    {event.attendees.pending}
-                  </p>
-                </div>
-              </div>
-
-              {/* Attendee Actions */}
-              <div className="flex flex-wrap gap-4">
-                <button className="flex items-center px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                  <Download size={20} className="mr-2" />
-                  Export List
-                </button>
-                <button className="flex items-center px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                  <Mail size={20} className="mr-2" />
-                  Email All
-                </button>
-                <button className="flex items-center px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                  <Share2 size={20} className="mr-2" />
-                  Share
-                </button>
-              </div>
-            </div>
-          )}
-
-          {activeTab === "schedule" && (
-            <div className="space-y-6">
-              {event.schedule.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-start p-4 bg-gray-50 rounded-lg"
-                >
-                  <div className="flex-shrink-0 w-24">
-                    <p className="text-sm font-medium text-gray-900">
-                      {item.time}
-                    </p>
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm text-gray-600">{item.activity}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {activeTab === "activity" && (
-            <div className="space-y-6">
-              {event.recentActivity.map((activity, index) => (
-                <div key={index} className="flex items-start">
-                  {activity.type === "registration" && (
-                    <CheckCircle className="w-5 h-5 text-green-500 mt-0.5" />
-                  )}
-                  {activity.type === "update" && (
-                    <AlertCircle className="w-5 h-5 text-yellow-500 mt-0.5" />
-                  )}
-                  {activity.type === "message" && (
-                    <MessageSquare className="w-5 h-5 text-blue-500 mt-0.5" />
-                  )}
-                  <div className="ml-3">
-                    <p className="text-sm text-gray-600">{activity.message}</p>
-                    <p className="text-xs text-gray-400 mt-1">
-                      {activity.time}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+          {activeTab === "activity" && <EventActivityTab event={event} />}
         </div>
       </div>
     </div>
