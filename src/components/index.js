@@ -10,3 +10,5 @@ export { default as EventActivityTab } from './admin/EventActivityTab';
 export { default as EventAttendeesTab } from './admin/EventAttendeesTab';
 export { default as EventScheduleTab } from './admin/EventScheduleTab';
 export { default as EventDetailTab } from './admin/EventDetailTab';
+
+export { default as OrgHeader } from './organizer/OrgHeader';
