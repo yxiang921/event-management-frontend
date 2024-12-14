@@ -19,7 +19,9 @@ import {
 
   // Organizer
   OrganizerDashboard,
+  OrgEventDetail,
 } from "./pages";
+
 import { Footer, Navbar, Sidebar } from "./components";
 import Header from "./components/admin/Header";
 import { useSidebar } from "./context/SidebarContext";
@@ -90,6 +92,7 @@ function App() {
 
       <Route element={<OrganizerLayout />}>
         <Route path="/organizer" element={<OrganizerDashboard />} />
+        <Route path="/organizer/event/:id" element={<OrgEventDetail />} />
       </Route>
     </Routes>
   );

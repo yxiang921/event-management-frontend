@@ -16,3 +16,4 @@ export { default as Settings } from "./admin/Settings";
 
 // Organizer
 export { default as OrganizerDashboard } from "./organizer/OrganizerDashboard";
+export { default as OrgEventDetail } from "./organizer/OrgEventDetail";
