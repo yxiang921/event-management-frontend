@@ -48,24 +48,14 @@ const OrgHeader = () => {
             Create Event
           </button>
           <button
-            onClick={() => setActiveTab("myEvents")}
+            onClick={() => setActiveTab("eventList")}
             className={`py-4 px-1 border-b-2 ${
-              activeTab === "myEvents"
+              activeTab === "eventList"
                 ? "border-primary-900 text-primary-900"
                 : "border-transparent hover:border-gray-300"
             }`}
           >
-            My Events
-          </button>
-          <button
-            onClick={() => setActiveTab("attendees")}
-            className={`py-4 px-1 border-b-2 ${
-              activeTab === "attendees"
-                ? "border-primary-900 text-primary-900"
-                : "border-transparent hover:border-gray-300"
-            }`}
-          >
-            Attendees
+            Events
           </button>
         </nav>
       </div>
