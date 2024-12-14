@@ -13,3 +13,6 @@ export { default as UsersManagement } from "./admin/UsersManagement";
 export { default as OrganizersManagement } from "./admin/OrganizersManagement";
 export { default as Analytics } from "./admin/Analytics";
 export { default as Settings } from "./admin/Settings";
+
+// Organizer
+export { default as OrganizerDashboard } from "./organizer/OrganizerDashboard";
