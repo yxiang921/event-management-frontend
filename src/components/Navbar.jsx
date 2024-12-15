@@ -48,11 +48,6 @@ const Navbar = () => {
                 Contact Us
               </a>
             </li>
-            <li>
-              <button className="bg-primary-200 w-32 text-primary-900 px-4 py-2 rounded-md">
-                Login
-              </button>
-            </li>
           </ul>
         </nav>
       </div>

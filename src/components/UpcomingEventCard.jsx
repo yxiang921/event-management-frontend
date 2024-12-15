@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 const UpcomingEventCard = ({ event }) => {
   return (
-    <a href={`/event/${event.id}`}>
+    <a href={`/event/${event._id}`}>
       <div className="my-2 bg-white shadow-lg rounded-lg overflow-hidden transition-all hover:scale-105 duration-300 max-w-sm cursor-pointer">
         <div className="relative">
           <img
@@ -14,7 +14,7 @@ const UpcomingEventCard = ({ event }) => {
           />
 
           <div className="w-24 flex items-center justify-center absolute top-4 left-4 bg-white text-gray-900 text-md font-bold px-2 py-1 rounded-lg shadow">
-            {event.seat} Seats
+            {event.maxCapacity} Seats
           </div>
         </div>
 
@@ -38,9 +38,9 @@ const UpcomingEventCard = ({ event }) => {
 
 UpcomingEventCard.propTypes = {
   event: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
-    seat: PropTypes.number.isRequired,
+    maxCapacity: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
   }).isRequired,

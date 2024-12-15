@@ -31,6 +31,7 @@ const UserAuth = () => {
         const data = await login(formData.email, formData.password);
         localStorage.setItem("token", data.token);
         console.log("User logged in:", data);
+        window.location.href = "/home";
       } catch (error) {
         console.error("Login failed:", error.message);
       }

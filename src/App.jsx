@@ -22,6 +22,7 @@ import {
   UserAuth,
   OrgAuth,
   AdminAuth,
+  Home,
 } from "./pages";
 
 import { Footer, Navbar, Sidebar } from "./components";
@@ -75,6 +76,7 @@ function App() {
       <Route path="/admin/auth" element={<AdminAuth />} />
 
       <Route element={<UserLayout />}>
+        <Route path="/home" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/myevents" element={<MyEvents />} />
         <Route path="/event/:id" element={<EventDetail />} />

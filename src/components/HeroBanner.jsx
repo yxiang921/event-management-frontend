@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 import Button from "./Button";
 
-const HeroBanner = () => {
+const HeroBanner = ({ event }) => {
   // {
   //   "id": "1",
   //   "title": "Campus Music Festival",
@@ -23,7 +24,7 @@ const HeroBanner = () => {
   return (
     <div className="w-10/12 h-[80vh] m-auto my-12 flex items-center justify-center rounded-lg overflow-hidden relative">
       <img
-        src={"https://picsum.photos/1200/1200/?random"}
+        src={event?.image}
         alt="Latest Event"
         width={900}
         height={900}
@@ -31,16 +32,14 @@ const HeroBanner = () => {
       />
 
       <div className="absolute left-0 w-2/3 h-full pl-16 text-white text-left flex flex-col justify-center">
-        <h1 className="text-5xl font-bold py-4">Campus Music Festival</h1>
-        <p className="text-xl py-4">
-          Join us for our Campus Music Festival featuring live music
-          performances, food stalls, and engaging activities! Whether
-          you&apos;re a music lover or just looking to have a great time with
-          friends, theres something for everyone.
+        <h1 className="text-5xl font-bold py-4">{event?.title}</h1>
+        <p className="text-xl py-4">{event?.description}</p>
+        <p className="text-lg py-1">
+          Location:
+          {event?.location}
         </p>
-        <p className="text-lg py-1">Location: Central Campus Square</p>
-        <p className="text-lg py-1">Date: 15th November 2024</p>
-        <p className="text-lg py-1">Time: 14:00 - 18:00</p>
+        <p className="text-lg py-1">Date: {event?.date} </p>
+        <p className="text-lg py-1">Time: {event?.time}</p>
         <div className="my-4">
           <Button width={"w-48"} height={"h-14"} className="mt-8">
             Register Now
