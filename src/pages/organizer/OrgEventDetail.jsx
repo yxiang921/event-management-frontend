@@ -11,6 +11,7 @@ import {
   Download,
   Search,
   ChevronLeft,
+  ScanQrCode,
 } from "lucide-react";
 
 const OrgEventDetail = () => {
@@ -108,28 +109,15 @@ const OrgEventDetail = () => {
             </div>
           </div>
           <div className="flex space-x-3">
-            <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-              <Edit className="h-4 w-4" />
-            </button>
-            <button
-              onClick={toggleAttendance}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${
-                isAttendanceOpen
-                  ? "bg-green-600 text-white hover:bg-green-700"
-                  : "bg-primary-900 text-white hover:bg-primary-800"
-              }`}
+            <button 
+            className="px-4 py-2 flex flex-row items-center bg-primary-900 text-white border border-gray-300 rounded-lg hover:bg-primary-hover"
+            onClick={() => {
+              // open device camera to scan QR code
+              console.log("Scan QR code");
+            }}
             >
-              {isAttendanceOpen ? (
-                <>
-                  <ToggleRight className="h-4 w-4" />
-                  <span>Attendance Open</span>
-                </>
-              ) : (
-                <>
-                  <ToggleLeft className="h-4 w-4" />
-                  <span>Open Attendance</span>
-                </>
-              )}
+              <ScanQrCode className="h-4 w-4" />
+              <span className="px-4">Sign Attendance</span>
             </button>
           </div>
         </div>
