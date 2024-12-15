@@ -17,3 +17,16 @@ export const getEventById = async (id) => {
     throw new Error(error.response?.data?.message || "Failed to fetch event");
   }
 };
+
+export const registerEvent = async (userID, eventID) => {
+  try {
+    const response = await axiosInstance.post(`event/register/${eventID}`, {
+      userId: userID,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || "Failed to register event"
+    );
+  }
+};

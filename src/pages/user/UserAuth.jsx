@@ -31,6 +31,7 @@ const UserAuth = () => {
       try {
         const data = await login(formData.email, formData.password);
         localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
         console.log("User logged in:", data);
         window.location.href = "/home";
         toast.success("Login successful");

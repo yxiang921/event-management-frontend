@@ -3,7 +3,6 @@ import "./App.css";
 import {
   Contact,
   EventDetail,
-  EventRegister,
   MyEvents,
   Profile,
 
@@ -83,7 +82,6 @@ function App() {
         <Route path="/myevents" element={<MyEvents />} />
         <Route path="/event/:id" element={<EventDetail />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/event-register" element={<EventRegister />} />
       </Route>
 
       <Route element={<AdminLayout />}>

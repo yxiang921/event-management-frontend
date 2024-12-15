@@ -1,11 +1,12 @@
 import { Calendar, Clock, MapPin, User, Users, Share2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getEventById } from "../../services";
+import { getEventById, registerEvent } from "../../services";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const EventDetailPage = () => {
   const [event, setEvent] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
 
   useEffect(() => {
@@ -15,6 +16,28 @@ const EventDetailPage = () => {
     }
     fetchApi();
   }, [id]);
+
+  const handleRegister = async () => {
+    console.log("Registering for event");
+    const user = localStorage.getItem("user");
+    if (!user) {
+      return toast.error("Please login to register for the event");
+    }
+
+    const userID = JSON.parse(user).id;
+    setLoading(true);
+
+    console.log("userid", userID);
+    try {
+      await registerEvent(userID, id);
+      toast.success("Registered for event successfully");
+    } catch (error) {
+      console.error("Failed to register for event", error);
+      toast.error(error.message);
+    }
+
+    setLoading(false);
+  };
 
   const attendeesCount = event?.attendees?.length;
 
@@ -69,10 +92,35 @@ const EventDetailPage = () => {
 
         {/* Action Buttons */}
         <div className="flex flex-wrap gap-4 mb-8">
-          <button className="bg-primary-900 text-white px-8 py-3 rounded-lg font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 hover:bg-primary-900 focus:outline-none focus:ring-2 focus:ring-primary-900 focus:ring-offset-2">
-            <a className="w-full h-full" href="/event-register">
-              Register Now
-            </a>
+          <button
+            onClick={handleRegister}
+            disabled={loading}
+            className="bg-primary-900 text-white px-8 py-3 rounded-lg font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 hover:bg-primary-900 focus:outline-none focus:ring-2 focus:ring-primary-900 focus:ring-offset-2"
+          >
+            {loading ? (
+              <svg
+                className="animate-spin h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+            ) : (
+              "Register Now"
+            )}
           </button>
           <button
             onClick={() => {
