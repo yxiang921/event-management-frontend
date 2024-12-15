@@ -7,25 +7,46 @@ import {
   Search,
   ChevronLeft,
   ScanQrCode,
+  Users,
 } from "lucide-react";
 
 const OrgEventDetail = () => {
   const [selectedFilter, setSelectedFilter] = useState("all");
 
-  // Mock event data
+  // Updated event data
   const eventDetails = {
     id: 1,
-    name: "Tech Conference 2024",
-    date: "2024-12-15",
-    time: "09:00 AM - 05:00 PM",
-    location: "Convention Center, Main Hall",
-    capacity: 250,
-    registeredCount: 180,
-    description:
-      "Annual technology conference featuring industry leaders and innovative workshops.",
-    status: "Approved",
-    organizer: "John Doe",
-    categories: ["Technology", "Conference"],
+    title: "Music Concert",
+    date: "2024-12-01",
+    time: "19:00",
+    location: "City Arena",
+    description: "A thrilling live concert featuring top artists.",
+    price: "RM50.00",
+    attendees: 250,
+    maxCapacity: 300,
+    type: "Conference",
+    organizer: "John Smith",
+    status: "approved",
+    category: "Technology",
+    schedule: [
+      { time: "10:00 AM", activity: "Registration & Welcome Coffee" },
+      { time: "10:30 AM", activity: "Keynote Speech: Future of AI" },
+      { time: "12:00 PM", activity: "Networking Lunch" },
+      { time: "1:30 PM", activity: "Interactive Workshops" },
+      { time: "3:30 PM", activity: "Panel Discussion" },
+    ],
+    speakers: [
+      {
+        name: "Dr. Sarah Johnson",
+        role: "AI Research Lead",
+        company: "Tech Corp",
+      },
+      {
+        name: "Prof. Michael Chen",
+        role: "Department Head",
+        company: "University",
+      },
+    ],
   };
 
   // Mock attendees data
@@ -64,6 +85,7 @@ const OrgEventDetail = () => {
     if (selectedFilter === "all") return true;
     return attendee.status === selectedFilter;
   });
+
   return (
     <div className="p-6 max-w-7xl mx-auto">
       {/* Event Header */}
@@ -76,7 +98,7 @@ const OrgEventDetail = () => {
         </a>
         <div className="flex justify-between items-start mb-6">
           <div>
-            <h1 className="text-2xl font-bold mb-2">{eventDetails.name}</h1>
+            <h1 className="text-2xl font-bold mb-2">{eventDetails.title}</h1>
             <div className="flex items-center space-x-4 text-gray-600">
               <div className="flex items-center">
                 <Calendar className="h-4 w-4 mr-2" />
@@ -90,16 +112,14 @@ const OrgEventDetail = () => {
                 <MapPin className="h-4 w-4 mr-2" />
                 {eventDetails.location}
               </div>
+              <div className="flex items-center">
+                <Users className="h-4 w-4 mr-2" />
+                {eventDetails.attendees}/{eventDetails.maxCapacity}
+              </div>
             </div>
           </div>
           <div className="flex space-x-3">
-            <button
-              className="px-4 py-2 flex flex-row items-center bg-primary-900 text-white border border-gray-300 rounded-lg hover:bg-primary-hover"
-              onClick={() => {
-                // open device camera to scan QR code
-                console.log("Scan QR code");
-              }}
-            >
+            <button className="px-4 py-2 flex flex-row items-center bg-primary-900 text-white border border-gray-300 rounded-lg hover:bg-primary-hover">
               <ScanQrCode className="h-4 w-4" />
               <span className="px-4">Sign Attendance</span>
             </button>
@@ -109,7 +129,7 @@ const OrgEventDetail = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           <div className="bg-gray-50 p-4 rounded-lg">
             <p className="text-gray-600 mb-1">Total Registered</p>
-            <p className="text-2xl font-bold">{eventDetails.registeredCount}</p>
+            <p className="text-2xl font-bold">{eventDetails.attendees}</p>
           </div>
           <div className="bg-gray-50 p-4 rounded-lg">
             <p className="text-gray-600 mb-1">Present</p>
@@ -127,7 +147,33 @@ const OrgEventDetail = () => {
 
         <div className="prose max-w-none">
           <h3 className="text-lg font-semibold mb-2">About This Event</h3>
-          <p className="text-gray-600">{eventDetails.description}</p>
+          <p className="text-gray-600 mb-6">{eventDetails.description}</p>
+
+          <h3 className="text-lg font-semibold mb-2">Event Schedule</h3>
+          <div className="space-y-4 mb-6">
+            {eventDetails.schedule.map((item, index) => (
+              <div
+                key={index}
+                className="flex items-start space-x-4 bg-gray-50 p-4 rounded-lg"
+              >
+                <div className="text-gray-900 font-medium min-w-[100px]">
+                  {item.time}
+                </div>
+                <div className="text-gray-700">{item.activity}</div>
+              </div>
+            ))}
+          </div>
+
+          <h3 className="text-lg font-semibold mb-2">Speakers</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            {eventDetails.speakers.map((speaker, index) => (
+              <div key={index} className="bg-gray-50 p-4 rounded-lg">
+                <h4 className="font-medium text-lg">{speaker.name}</h4>
+                <p className="text-gray-600">{speaker.role}</p>
+                <p className="text-gray-500">{speaker.company}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
