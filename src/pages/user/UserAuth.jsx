@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import { login, register } from "../../services";
 import { LoadingButton } from "../../components";
+import toast, { Toaster } from "react-hot-toast";
 
 const UserAuth = () => {
   const [loading, setLoading] = useState(false);
@@ -32,8 +33,10 @@ const UserAuth = () => {
         localStorage.setItem("token", data.token);
         console.log("User logged in:", data);
         window.location.href = "/home";
+        toast.success("Login successful");
       } catch (error) {
         console.error("Login failed:", error.message);
+        toast.error(`Login failed - ${error.message}`);
       }
     } else {
       try {
@@ -60,6 +63,7 @@ const UserAuth = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <Toaster />
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           {isLogin ? "Sign in to your account" : "Create your account"}

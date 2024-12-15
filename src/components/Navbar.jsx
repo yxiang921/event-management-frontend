@@ -29,7 +29,7 @@ const Navbar = () => {
         <nav className="hidden md:block">
           <ul className="flex space-x-12 h-full items-center justify-between">
             <li>
-              <a href="/" className="hover:text-primary-900">
+              <a href="/home" className="hover:text-primary-900">
                 Home
               </a>
             </li>
@@ -59,7 +59,7 @@ const Navbar = () => {
             <ul className="flex flex-col items-center space-y-4 py-6">
               <li>
                 <a
-                  href="/"
+                  href="/home"
                   className="hover:text-primary-900"
                   onClick={toggleMenu}
                 >
@@ -92,14 +92,6 @@ const Navbar = () => {
                 >
                   Contact Us
                 </a>
-              </li>
-              <li>
-                <button
-                  className="bg-primary-200 w-32 text-primary-900 px-4 py-2 rounded-md"
-                  onClick={toggleMenu}
-                >
-                  Login
-                </button>
               </li>
             </ul>
           </nav>

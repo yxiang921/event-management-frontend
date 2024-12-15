@@ -1,6 +1,26 @@
 import PropTypes from "prop-types";
 
 const UpcomingEventCard = ({ event }) => {
+
+  const monthNumberToText = (number) => {
+    const months = {
+      1: "JAN",
+      2: "FEB",
+      3: "MAR",
+      4: "APR",
+      5: "MAY",
+      6: "JUN",
+      7: "JUL",
+      8: "AUG",
+      9: "SEP",
+      10: "OCT",
+      11: "NOV",
+      12: "DEC",
+    };
+
+    return months[number - 1];
+  }
+
   return (
     <a href={`/event/${event._id}`}>
       <div className="my-2 bg-white shadow-lg rounded-lg overflow-hidden transition-all hover:scale-105 duration-300 max-w-sm cursor-pointer">
@@ -20,8 +40,12 @@ const UpcomingEventCard = ({ event }) => {
 
         <div className="flex flex-row justify-start items-center">
           <div className="py-6 flex flex-col items-center justify-center w-1/4 h-full">
-            <div className="text-2xl font-bold text-gray-800">17</div>
-            <div className="text-gray-800 font-semibold text-sm">SEP</div>
+            <div className="text-2xl font-bold text-gray-800">
+              {event.date.split("T")[0].split("-")[2]}
+            </div>
+            <div className="text-gray-800 font-semibold text-sm">
+              {monthNumberToText(Number(event.date.split("T")[0].split("-")[1]))}
+            </div>
           </div>
 
           <div className="py-6 w-full h-full">
@@ -39,6 +63,7 @@ const UpcomingEventCard = ({ event }) => {
 UpcomingEventCard.propTypes = {
   event: PropTypes.shape({
     _id: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     maxCapacity: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,

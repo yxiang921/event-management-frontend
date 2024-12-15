@@ -34,16 +34,22 @@ const HeroBanner = ({ event }) => {
       <div className="absolute left-0 w-2/3 h-full pl-16 text-white text-left flex flex-col justify-center">
         <h1 className="text-5xl font-bold py-4">{event?.title}</h1>
         <p className="text-xl py-4">{event?.description}</p>
+        <p className="text-lg py-1">Location: {event?.location}</p>
         <p className="text-lg py-1">
-          Location:
-          {event?.location}
+          Date:{" "}
+          {new Date(event?.date).toLocaleDateString("en-US", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })}
         </p>
-        <p className="text-lg py-1">Date: {event?.date} </p>
         <p className="text-lg py-1">Time: {event?.time}</p>
         <div className="my-4">
-          <Button width={"w-48"} height={"h-14"} className="mt-8">
-            Register Now
-          </Button>
+          <a href={`/event/${event?._id}`}>
+            <Button width={"w-48"} height={"h-14"} className="mt-8">
+              Register Now
+            </Button>
+          </a>
         </div>
       </div>
     </div>

@@ -1,2 +1,2 @@
 export { login, register } from "./auth";
-export { getEvents } from "./event";
+export { getEvents, getEventById } from "./event";

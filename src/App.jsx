@@ -28,10 +28,12 @@ import {
 import { Footer, Navbar, Sidebar } from "./components";
 import Header from "./components/admin/Header";
 import { useSidebar } from "./context/SidebarContext";
+import { Toaster } from "react-hot-toast";
 
 const UserLayout = () => {
   return (
     <>
+      <Toaster />
       <Navbar />
       <Outlet />
       <Footer />
