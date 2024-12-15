@@ -5,9 +5,6 @@ import {
   Clock,
   Check,
   X,
-  ToggleLeft,
-  ToggleRight,
-  Edit,
   Download,
   Search,
   ChevronLeft,
@@ -15,7 +12,6 @@ import {
 } from "lucide-react";
 
 const OrgEventDetail = () => {
-  const [isAttendanceOpen, setIsAttendanceOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState("all");
 
   // Mock event data
@@ -70,10 +66,6 @@ const OrgEventDetail = () => {
     if (selectedFilter === "all") return true;
     return attendee.status === selectedFilter;
   });
-
-  const toggleAttendance = () => {
-    setIsAttendanceOpen(!isAttendanceOpen);
-  };
 
   const updateAttendanceStatus = (attendeeId, status) => {
     // Handle attendance status update
