@@ -6,7 +6,6 @@ import {
   EventRegister,
   MyEvents,
   Profile,
-  Home,
 
   // Admin
   AdminEvents,
@@ -71,13 +70,11 @@ const OrganizerLayout = () => {
 function App() {
   return (
     <Routes>
-
-      <Route path="/user/auth" element={<UserAuth />} />
+      <Route path="/" element={<UserAuth />} />
       <Route path="/organizer/auth" element={<OrgAuth />} />
       <Route path="/admin/auth" element={<AdminAuth />} />
 
       <Route element={<UserLayout />}>
-        <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/myevents" element={<MyEvents />} />
         <Route path="/event/:id" element={<EventDetail />} />
