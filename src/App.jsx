@@ -20,6 +20,9 @@ import {
   // Organizer
   OrganizerDashboard,
   OrgEventDetail,
+  UserAuth,
+  OrgAuth,
+  AdminAuth,
 } from "./pages";
 
 import { Footer, Navbar, Sidebar } from "./components";
@@ -68,6 +71,11 @@ const OrganizerLayout = () => {
 function App() {
   return (
     <Routes>
+
+      <Route path="/user/auth" element={<UserAuth />} />
+      <Route path="/organizer/auth" element={<OrgAuth />} />
+      <Route path="/admin/auth" element={<AdminAuth />} />
+
       <Route element={<UserLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
