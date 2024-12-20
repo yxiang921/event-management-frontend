@@ -48,8 +48,10 @@ const UserAuth = () => {
         );
 
         console.log("User registered:", data);
+        toast.success("Registration successful");
       } catch (error) {
         console.log("Registration failed:", error.message);
+        toast.error(`Registration failed - ${error.message}`);
       }
     }
 

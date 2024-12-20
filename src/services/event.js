@@ -18,6 +18,19 @@ export const getEventById = async (id) => {
   }
 };
 
+export const getRegisteredEvents = async (userID) => {
+  try {
+    const response = await axiosInstance.post(`event/getRegisteredEvents/`, {
+      userID,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || "Failed to fetch registered events"
+    );
+  }
+};
+
 export const registerEvent = async (userID, eventID) => {
   try {
     const response = await axiosInstance.post(`event/register/${eventID}`, {

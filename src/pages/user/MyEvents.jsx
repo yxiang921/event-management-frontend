@@ -6,43 +6,26 @@ import {
   ChevronRight,
   Search,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { getRegisteredEvents } from "../../services/event";
 
 const MyEvents = () => {
-  const myEvents = [
-    {
-      id: 1,
-      title: "Tech Conference 2024",
-      date: "2024-03-15",
-      time: "09:00 AM - 05:00 PM",
-      location: "Main Auditorium",
-      type: "Academic Conference",
-      participants: 2,
-      status: "upcoming",
-      image: "https://picsum.photos/800/400?random=2",
-    },
-    {
-      id: 2,
-      title: "Sports Tournament - Basketball",
-      date: "2024-03-20",
-      time: "02:00 PM - 06:00 PM",
-      location: "Sports Complex",
-      type: "Sports Tournament",
-      participants: 5,
-      status: "upcoming",
-      image: "https://picsum.photos/800/400?random=2",
-    },
-    {
-      id: 3,
-      title: "Cultural Festival 2024",
-      date: "2024-02-28",
-      time: "10:00 AM - 08:00 PM",
-      location: "College Ground",
-      type: "Cultural Festival",
-      participants: 3,
-      status: "completed",
-      image: "https://picsum.photos/800/400?random=2",
-    },
-  ];
+  const user = localStorage.getItem("user");
+  const userID = JSON.parse(user).id;
+
+  const [events, setEvents] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filter, setFilter] = useState("all");
+
+  useEffect(() => {
+    async function fetchApi() {
+      const data = await getRegisteredEvents(userID);
+      console.log(data);
+      setEvents(data.events);
+    }
+
+    fetchApi();
+  }, [userID]);
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -64,6 +47,15 @@ const MyEvents = () => {
     });
   };
 
+  const filteredEvents = events.filter((event) => {
+    const matchesSearch = event.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesFilter =
+      filter === "all" || event.status.toLowerCase() === filter;
+    return matchesSearch && matchesFilter;
+  });
+
   return (
     <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
@@ -76,11 +68,17 @@ const MyEvents = () => {
                 type="text"
                 placeholder="Search events..."
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-900"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
               <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
             </div>
             <div className="flex gap-2">
-              <select className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-900">
+              <select
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-900"
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+              >
                 <option value="all">All Events</option>
                 <option value="upcoming">Upcoming</option>
                 <option value="completed">Completed</option>
@@ -91,7 +89,7 @@ const MyEvents = () => {
 
         {/* Events Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {myEvents.map((event) => (
+          {filteredEvents.map((event) => (
             <div
               key={event.id}
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
@@ -145,7 +143,7 @@ const MyEvents = () => {
                 <button className="mt-6 w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-900">
                   <a
                     className="w-full h-full flex items-center justify-center"
-                    href={`/event/${event.id}`}
+                    href={`/event/${event._id}`}
                   >
                     View Details
                     <ChevronRight className="ml-2 h-4 w-4" />
@@ -157,7 +155,7 @@ const MyEvents = () => {
         </div>
 
         {/* Empty State */}
-        {myEvents.length === 0 && (
+        {filteredEvents.length === 0 && (
           <div className="text-center py-12">
             <Calendar className="mx-auto h-12 w-12 text-gray-400" />
             <h3 className="mt-2 text-sm font-medium text-gray-900">

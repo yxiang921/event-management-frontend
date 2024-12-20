@@ -42,17 +42,6 @@ const CollegeEventsUserProfile = () => {
             </button>
           </div>
         </div>
-
-        {/* Content */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 text-gray-800">
-          <div className="md:col-span-3 space-y-6">
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-lg font-semibold mb-4 ">Upcoming Events</h3>
-              {/* Event cards go here */}
-              <p>You have no upcoming events. Check back later for updates.</p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
