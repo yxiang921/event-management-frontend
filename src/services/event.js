@@ -31,6 +31,19 @@ export const getRegisteredEvents = async (userID) => {
   }
 };
 
+export const getEventAttendees = async (eventID) => {
+  try {
+    const response = await axiosInstance.get(
+      `event/getEventAttendees/${eventID}`
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || "Failed to fetch event attendees"
+    );
+  }
+};
+
 export const registerEvent = async (userID, eventID) => {
   try {
     const response = await axiosInstance.post(`event/register/${eventID}`, {
@@ -41,5 +54,16 @@ export const registerEvent = async (userID, eventID) => {
     throw new Error(
       error.response?.data?.message || "Failed to register event"
     );
+  }
+};
+
+export const decideEvent = async (eventID, status) => {
+  try {
+    const response = await axiosInstance.post(`event/decide/${eventID}`, {
+      status,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Failed to approve event");
   }
 };

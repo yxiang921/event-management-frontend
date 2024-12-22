@@ -1,36 +1,17 @@
-import { Plus, MoreVertical } from "lucide-react";
+import { Plus, Eye } from "lucide-react";
+import { useEffect, useState } from "react";
+import { getEvents } from "../../services";
 
 const Dashboard = () => {
-  const events = [
-    {
-      id: 1,
-      name: "Tech Conference 2024",
-      date: "2024-12-15",
-      attendees: 250,
-      status: "Upcoming",
-    },
-    {
-      id: 2,
-      name: "Music Festival",
-      date: "2024-12-20",
-      attendees: 1000,
-      status: "Planning",
-    },
-    {
-      id: 3,
-      name: "Corporate Workshop",
-      date: "2024-12-10",
-      attendees: 50,
-      status: "Completed",
-    },
-    {
-      id: 4,
-      name: "Charity Gala",
-      date: "2024-12-25",
-      attendees: 150,
-      status: "Upcoming",
-    },
-  ];
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    async function fetchApi() {
+      const data = await getEvents();
+      setEvents(data.events);
+    }
+    fetchApi();
+  }, []);
 
   const stats = [
     { title: "Total Events", value: "24", change: "+12%" },
@@ -38,6 +19,25 @@ const Dashboard = () => {
     { title: "Revenue", value: "$45,000", change: "+18%" },
     { title: "Active Events", value: "8", change: "+5%" },
   ];
+
+  const monthNumberToText = (number) => {
+    const months = {
+      1: "JAN",
+      2: "FEB",
+      3: "MAR",
+      4: "APR",
+      5: "MAY",
+      6: "JUN",
+      7: "JUL",
+      8: "AUG",
+      9: "SEP",
+      10: "OCT",
+      11: "NOV",
+      12: "DEC",
+    };
+
+    return months[number - 1];
+  };
 
   return (
     <div>
@@ -80,7 +80,7 @@ const Dashboard = () => {
                     Date
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Attendees
+                    Organizer
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Status
@@ -93,40 +93,56 @@ const Dashboard = () => {
               <tbody className="bg-white divide-y divide-gray-200">
                 {events.map((event) => (
                   <tr
-                    key={event.id}
+                    key={event?._id}
                     className="hover:bg-gray-50 transition-colors duration-200"
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">
-                        {event.name}
+                        {event.title}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">{event.date}</div>
+                      <div className="text-sm text-gray-500">
+                        {event.date.split("T")[0].split("-")[2]}{" "}
+                        {monthNumberToText(
+                          Number(event.date.split("T")[0].split("-")[1])
+                        )}
+                        {", " + event.date.split("T")[0].split("-")[0]}
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-500">
-                        {event.attendees}
+                        {event.organizer}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                               ${
-                                event.status === "Upcoming"
+                                event.status.toLowerCase() === "pending"
                                   ? "bg-yellow-100 text-yellow-800"
-                                  : event.status === "Completed"
+                                  : ""
+                              }
+                              ${
+                                event.status.toLowerCase() === "approved"
                                   ? "bg-green-100 text-green-800"
-                                  : "bg-blue-100 text-blue-800"
+                                  : ""
+                              }
+                              ${
+                                event.status.toLowerCase() === "declined"
+                                  ? "bg-red-100 text-red-800"
+                                  : ""
                               }`}
                       >
                         {event.status}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <button>
-                        <MoreVertical size={20} />
-                      </button>
+                      <a href={`admin/event/${event._id}`}>
+                        <button>
+                          <Eye size={20} />
+                        </button>
+                      </a>
                     </td>
                   </tr>
                 ))}

@@ -1,27 +1,35 @@
 /* eslint-disable react/prop-types */
 import { Download, Share2, Mail } from "lucide-react";
 
-const EventAttendeesTab = ({ event }) => {
+const EventAttendeesTab = ({ attendees }) => {
   return (
     <div className="space-y-6">
       {/* Attendee Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-gray-50 p-4 rounded-lg">
           <p className="text-sm text-gray-500">Total Registrations</p>
-          <p className="text-2xl font-semibold mt-1">123</p>
+          <p className="text-2xl font-semibold mt-1">{attendees.length}</p>
         </div>
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <p className="text-sm text-gray-500">Confirmed</p>
-          <p className="text-2xl font-semibold mt-1">
-            123
-          </p>
-        </div>
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <p className="text-sm text-gray-500">Pending</p>
-          <p className="text-2xl font-semibold mt-1">
-            123
-          </p>
-        </div>
+      </div>
+
+      {/* Attendee List */}
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white text-left">
+          <thead>
+            <tr>
+              <th className="py-2 px-4 border-b">Name</th>
+              <th className="py-2 px-4 border-b">Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            {attendees.map((attendee, index) => (
+              <tr key={index}>
+                <td className="py-2 px-4 border-b">{attendee.username}</td>
+                <td className="py-2 px-4 border-b">{attendee.email}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {/* Attendee Actions */}
