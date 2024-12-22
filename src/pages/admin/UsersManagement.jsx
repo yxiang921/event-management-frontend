@@ -1,70 +1,28 @@
-import { useState } from "react";
-import {
-  Search,
-  Plus,
-  Filter,
-  ChevronDown,
-  UserX,
-  Edit2,
-  Key,
-  Lock,
-  Unlock,
-} from "lucide-react";
+import { useEffect, useState } from "react";
+import { Search, Filter, ChevronDown, UserX } from "lucide-react";
+import { deleteUser, getUsers } from "../../services";
+import toast from "react-hot-toast";
 
 export default function UsersManagement() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState("all");
   const [selectedStatus, setSelectedStatus] = useState("all");
+  const [users, setUsers] = useState([]);
 
-  const users = [
-    {
-      id: 1,
-      name: "John Smith",
-      email: "john.smith@example.com",
-      role: "Admin",
-      status: "active",
-      lastActive: "2 hours ago",
-      dateJoined: "2024-01-15",
-      avatar: "JS",
-    },
-    {
-      id: 2,
-      name: "Sarah Johnson",
-      email: "sarah.j@example.com",
-      role: "Editor",
-      status: "active",
-      lastActive: "5 mins ago",
-      dateJoined: "2024-02-20",
-      avatar: "SJ",
-    },
-    {
-      id: 3,
-      name: "Mike Wilson",
-      email: "mike.w@example.com",
-      role: "Viewer",
-      status: "inactive",
-      lastActive: "2 days ago",
-      dateJoined: "2024-03-01",
-      avatar: "MW",
-    },
-    {
-      id: 4,
-      name: "Emma Davis",
-      email: "emma.d@example.com",
-      role: "Editor",
-      status: "suspended",
-      lastActive: "1 week ago",
-      dateJoined: "2024-01-10",
-      avatar: "ED",
-    },
-  ];
+  useEffect(() => {
+    async function fetchApi() {
+      const data = await getUsers();
+      setUsers(data.users);
+      console.log(data.users);
+    }
+    fetchApi();
+  }, []);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedUsers, setSelectedUsers] = useState([]);
 
   const filteredUsers = users.filter((user) => {
     const matchesSearch =
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRole =
       selectedRole === "all" ||
@@ -74,45 +32,14 @@ export default function UsersManagement() {
     return matchesSearch && matchesRole && matchesStatus;
   });
 
-  const handleSelectAll = (e) => {
-    if (e.target.checked) {
-      setSelectedUsers(filteredUsers.map((user) => user.id));
-    } else {
-      setSelectedUsers([]);
-    }
-  };
-
-  const handleSelectUser = (userId) => {
-    if (selectedUsers.includes(userId)) {
-      setSelectedUsers(selectedUsers.filter((id) => id !== userId));
-    } else {
-      setSelectedUsers([...selectedUsers, userId]);
-    }
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "active":
-        return "bg-green-100 text-green-800";
-      case "inactive":
-        return "bg-yellow-100 text-yellow-800";
-      case "suspended":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-
-  const getRoleColor = (role) => {
-    switch (role.toLowerCase()) {
-      case "admin":
-        return "bg-purple-100 text-purple-800";
-      case "editor":
-        return "bg-blue-100 text-blue-800";
-      case "viewer":
-        return "bg-gray-100 text-gray-800";
-      default:
-        return "bg-gray-100 text-gray-800";
+  const handleDeleteUser = async (userID) => {
+    try {
+      await deleteUser(userID);
+      setUsers(users.filter((user) => user._id !== userID));
+      toast.success("User deleted successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -199,12 +126,6 @@ export default function UsersManagement() {
               )}
             </div>
           </div>
-
-          {/* Add User Button */}
-          <button className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-primary-900 text-white px-6 py-2 rounded-lg hover:bg-primary-800 transition-colors duration-200">
-            <Plus size={20} />
-            <span>Add User</span>
-          </button>
         </div>
       </div>
 
@@ -214,25 +135,14 @@ export default function UsersManagement() {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left">
-                  <input
-                    type="checkbox"
-                    onChange={handleSelectAll}
-                    checked={
-                      selectedUsers.length === filteredUsers.length &&
-                      filteredUsers.length > 0
-                    }
-                    className="rounded border-gray-300 text-primary-900 focus:ring-primary-900"
-                  />
-                </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   User
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Role & Status
+                  Email Address
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Last Active
+                  Events Registered
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Actions
@@ -242,73 +152,42 @@ export default function UsersManagement() {
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredUsers.map((user) => (
                 <tr
-                  key={user.id}
+                  key={user._id}
                   className="hover:bg-gray-50 transition-colors duration-200"
                 >
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <input
-                      type="checkbox"
-                      checked={selectedUsers.includes(user.id)}
-                      onChange={() => handleSelectUser(user.id)}
-                      className="rounded border-gray-300 text-primary-900 focus:ring-primary-900"
-                    />
-                  </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center">
                       <div className="h-10 w-10 flex-shrink-0 rounded-full bg-primary-900 text-white flex items-center justify-center font-medium">
-                        {user.avatar}
+                        <img
+                          src={`https://avatar.iran.liara.run/public/boy?${user._id}`}
+                          alt=""
+                        />
                       </div>
                       <div className="ml-4">
                         <div className="text-sm font-medium text-gray-900">
-                          {user.name}
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          {user.email}
+                          {user.username}
                         </div>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4">
                     <span
-                      className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getRoleColor(
-                        user.role
-                      )} mb-1`}
+                      className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full mb-1`}
                     >
-                      {user.role}
-                    </span>
-                    <span
-                      className={`px-2 py-1 ml-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(
-                        user.status
-                      )}`}
-                    >
-                      {user.status.charAt(0).toUpperCase() +
-                        user.status.slice(1)}
+                      {user.email}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-900">
-                      {user.lastActive}
-                    </div>
-                    <div className="text-sm text-gray-500">
-                      Joined {user.dateJoined}
+                      {user.events.length}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center space-x-3">
-                      <button className="text-gray-600 hover:text-primary-900 transition-colors duration-200">
-                        <Edit2 size={18} />
-                      </button>
-                      <button className="text-gray-600 hover:text-primary-900 transition-colors duration-200">
-                        <Key size={18} />
-                      </button>
-                      <button className="text-gray-600 hover:text-primary-900 transition-colors duration-200">
-                        {user.status === "suspended" ? (
-                          <Unlock size={18} />
-                        ) : (
-                          <Lock size={18} />
-                        )}
-                      </button>
-                      <button className="text-gray-600 hover:text-red-600 transition-colors duration-200">
+                      <button
+                        onClick={() => handleDeleteUser(user._id)}
+                        className="text-gray-600 hover:text-red-600 transition-colors duration-200"
+                      >
                         <UserX size={18} />
                       </button>
                     </div>

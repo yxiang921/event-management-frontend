@@ -44,6 +44,7 @@ const AdminLayout = () => {
   const { isSidebarOpen } = useSidebar();
   return (
     <div className="min-h-screen bg-gray-50">
+      <Toaster />
       <Sidebar />
       <div
         className={`transition-all duration-300 ${

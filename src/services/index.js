@@ -7,3 +7,4 @@ export {
   getRegisteredEvents,
   decideEvent,
 } from "./event";
+export { getUsers, getUserByID, deleteUser } from "./user";
