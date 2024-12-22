@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Search, Filter, ChevronDown, Eye } from "lucide-react";
-import events from "../../utils/events";
+import { useEvents } from "../../context/EventContext";
 
 export default function AdminEvents() {
   const [filterOpen, setFilterOpen] = useState(false);
@@ -9,7 +9,9 @@ export default function AdminEvents() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedEvents, setSelectedEvents] = useState([]);
 
-  const filteredEvents = events.filter((event) => {
+  const { events } = useEvents();
+
+  const filteredEvents = events?.filter((event) => {
     const matchesSearch =
       event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       event.organizer.toLowerCase().includes(searchTerm.toLowerCase());
@@ -36,11 +38,11 @@ export default function AdminEvents() {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case "approved":
+      case "Approved":
         return "bg-green-100 text-green-800";
-      case "pending":
+      case "Pending":
         return "bg-yellow-100 text-yellow-800";
-      case "rejected":
+      case "Declined":
         return "bg-red-100 text-red-800";
       default:
         return "bg-gray-100 text-gray-800";
@@ -73,30 +75,30 @@ export default function AdminEvents() {
                 className="w-full sm:w-auto flex items-center justify-center space-x-2 px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors duration-200"
               >
                 <Filter size={20} />
-                <span>Filter</span>
+                <span>
+                  {selectedStatus.charAt(0).toUpperCase() + selectedStatus.slice(1)}
+                </span>
                 <ChevronDown size={16} />
               </button>
               {filterOpen && (
                 <div className="absolute mt-2 w-48 bg-white rounded-lg shadow-lg border p-2 z-10">
-                  {["all", "approved", "pending", "rejected"].map(
-                    (status) => (
-                      <button
-                        key={status}
-                        onClick={() => {
-                          setSelectedStatus(status);
-                          setFilterOpen(false);
-                        }}
-                        className={`w-full text-left px-4 py-2 rounded-md hover:bg-gray-50 transition-colors duration-200
+                  {["all", "Approved", "Pending", "Declined"].map((status) => (
+                    <button
+                      key={status}
+                      onClick={() => {
+                        setSelectedStatus(status);
+                        setFilterOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-2 rounded-md hover:bg-gray-50 transition-colors duration-200
                         ${
                           selectedStatus === status
                             ? "bg-primary-900 text-white hover:bg-primary-800"
                             : ""
                         }`}
-                      >
-                        {status.charAt(0).toUpperCase() + status.slice(1)}
-                      </button>
-                    )
-                  )}
+                    >
+                      {status.charAt(0).toUpperCase() + status.slice(1)}
+                    </button>
+                  ))}
                 </div>
               )}
             </div>
@@ -141,7 +143,7 @@ export default function AdminEvents() {
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredEvents.map((event) => (
                 <tr
-                  key={event.id}
+                  key={event._id}
                   className="hover:bg-gray-50 transition-colors duration-200"
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -160,7 +162,7 @@ export default function AdminEvents() {
                       Organized by: {event.organizer}
                     </div>
                     <div className="text-sm text-gray-500">
-                      {event.attendees} attendees • {event.type}
+                      {event.attendees.length} attendees • {event.type}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -184,7 +186,7 @@ export default function AdminEvents() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <div className="flex items-center space-x-5">
-                      <a href={`event/${event.id}`}>
+                      <a href={`event/${event._id}`}>
                         <button className="text-gray-600 hover:text-primary-900 transition-colors duration-200">
                           <Eye size={18} />
                         </button>

@@ -4,12 +4,15 @@ import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { SidebarProvider } from "./context/SidebarContext.jsx";
 import { OrgHeaderProvider } from "./context/OrgHeaderContext.jsx";
+import { EventsProvider } from "./context/EventContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <SidebarProvider>
       <OrgHeaderProvider>
-        <App />
+        <EventsProvider>
+          <App />
+        </EventsProvider>
       </OrgHeaderProvider>
     </SidebarProvider>
   </BrowserRouter>
