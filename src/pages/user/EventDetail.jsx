@@ -1,11 +1,16 @@
 import { Calendar, Clock, MapPin, User, Users, Share2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getEventById, registerEvent } from "../../services";
+import {
+  getEventById,
+  getRegisteredEvents,
+  registerEvent,
+} from "../../services";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const EventDetailPage = () => {
   const [event, setEvent] = useState([]);
+  const [isRegistered, setIsRegistered] = useState(false);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
 
@@ -14,6 +19,13 @@ const EventDetailPage = () => {
       const data = await getEventById(id);
       setEvent(data.event);
     }
+
+    const userID = JSON.parse(localStorage.getItem("user"))?.id;
+    getRegisteredEvents(userID).then((data) => {
+      const registeredEvents = data.events.map((event) => event._id);
+      setIsRegistered(registeredEvents.includes(id));
+    });
+
     fetchApi();
   }, [id]);
 
@@ -94,8 +106,10 @@ const EventDetailPage = () => {
         <div className="flex flex-wrap gap-4 mb-8">
           <button
             onClick={handleRegister}
-            disabled={loading}
-            className="bg-primary-900 text-white px-8 py-3 rounded-lg font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 hover:bg-primary-900 focus:outline-none focus:ring-2 focus:ring-primary-900 focus:ring-offset-2"
+            disabled={loading || isRegistered}
+            className={`${
+              isRegistered ? "cursor-not-allowed bg-primary-400 hover:bg-purple-400" : ""
+            } bg-primary-900 text-white px-8 py-3 rounded-lg font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 hover:bg-primary-900 focus:outline-none focus:ring-2 focus:ring-primary-900 focus:ring-offset-2`}
           >
             {loading ? (
               <svg
@@ -119,7 +133,7 @@ const EventDetailPage = () => {
                 ></path>
               </svg>
             ) : (
-              "Register Now"
+              <>{isRegistered ? "You Already Registered" : "Register"}</>
             )}
           </button>
           <button
