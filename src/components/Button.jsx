@@ -1,5 +1,5 @@
 // eslint-disable-next-line react/prop-types
-const Button = ({ children, width, height, variant }) => {
+const Button = ({ children, width, height, variant, onClick }) => {
 
   const buttonStyle = {
     primary: "bg-primary-900 text-white hover:bg-primary-hover",
@@ -14,6 +14,7 @@ const Button = ({ children, width, height, variant }) => {
   return (
     <button
       className={`${width} ${height} ${style} px-4 py-2 rounded-md transition-all duration-500 flex flex-row justify-center items-center`}
+      onClick={onClick}
     >
       {children}
     </button>

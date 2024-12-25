@@ -1,4 +1,12 @@
-import { Calendar, Clock, MapPin, User, Users, Share2 } from "lucide-react";
+import {
+  Calendar,
+  Clock,
+  MapPin,
+  User,
+  Users,
+  Share2,
+  TicketIcon,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   getEventById,
@@ -7,11 +15,13 @@ import {
 } from "../../services";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import { Button, TicketComponent } from "../../components";
 
 const EventDetailPage = () => {
   const [event, setEvent] = useState([]);
   const [isRegistered, setIsRegistered] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
   const { id } = useParams();
 
   useEffect(() => {
@@ -50,7 +60,6 @@ const EventDetailPage = () => {
 
     setLoading(false);
   };
-
   const attendeesCount = event?.attendees?.length;
 
   return (
@@ -108,7 +117,9 @@ const EventDetailPage = () => {
             onClick={handleRegister}
             disabled={loading || isRegistered}
             className={`${
-              isRegistered ? "cursor-not-allowed bg-primary-400 hover:bg-purple-400" : ""
+              isRegistered
+                ? "cursor-not-allowed bg-primary-400 hover:bg-purple-400"
+                : ""
             } bg-primary-900 text-white px-8 py-3 rounded-lg font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 hover:bg-primary-900 focus:outline-none focus:ring-2 focus:ring-primary-900 focus:ring-offset-2`}
           >
             {loading ? (
@@ -138,7 +149,7 @@ const EventDetailPage = () => {
           </button>
           <button
             onClick={() => {
-              navigator.clipboard.writeText(window.location.href);
+              navigator.clipboard.writeText(`Check out this event: ${window.location.href}`);
               toast.success("Link copied to clipboard");
             }}
             className="flex items-center bg-white border border-gray-300 px-6 py-3 rounded-lg font-medium shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
@@ -146,6 +157,23 @@ const EventDetailPage = () => {
             <Share2 className="w-4 h-4 mr-2" />
             Share Event
           </button>
+
+          {isRegistered && (
+            <>
+              <div
+                onClick={() => setIsTicketModalOpen(false)}
+                className={`${
+                  isTicketModalOpen ? "block" : "hidden"
+                } w-full h-full fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center`}
+              >
+                <TicketComponent ticket={event}/>
+              </div>
+              <Button onClick={() => setIsTicketModalOpen(true)}>
+                <TicketIcon className="w-4 h-4 mr-2" />
+                Show Ticket
+              </Button>
+            </>
+          )}
         </div>
 
         {/* Main Content Grid */}
