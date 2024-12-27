@@ -1,4 +1,3 @@
-import { Bell, ChevronDown } from "lucide-react";
 import { useOrgHeader } from "../../context/OrgHeaderContext";
 
 const OrgHeader = () => {
@@ -10,20 +9,6 @@ const OrgHeader = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <h1 className="text-xl font-bold">Event Organizer</h1>
-          </div>
-          <div className="flex items-center space-x-4">
-            <button className="p-2 hover:bg-gray-100 rounded-full">
-              <Bell className="h-5 w-5" />
-            </button>
-            <div className="flex items-center space-x-2">
-              <img
-                src="/api/placeholder/32/32"
-                alt="Profile"
-                className="h-8 w-8 rounded-full"
-              />
-              <span className="text-sm font-medium">John Doe</span>
-              <ChevronDown className="h-4 w-4" />
-            </div>
           </div>
         </div>
         <nav className="flex space-x-8">

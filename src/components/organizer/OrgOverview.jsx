@@ -8,15 +8,25 @@ const OrgOverview = ({ events, getStatusIcon, getStatusColor }) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-gray-50 p-4 rounded-lg">
             <p className="text-gray-600">Total Events</p>
-            <p className="text-2xl font-bold">12</p>
+            <p className="text-2xl font-bold">{events.length}</p>
           </div>
           <div className="bg-gray-50 p-4 rounded-lg">
             <p className="text-gray-600">Pending Approval</p>
-            <p className="text-2xl font-bold">3</p>
+            <p className="text-2xl font-bold">
+              {
+                events.filter(
+                  (event) => event.status.toLowerCase() == "pending"
+                ).length
+              }
+            </p>
           </div>
           <div className="bg-gray-50 p-4 rounded-lg">
             <p className="text-gray-600">Total Attendees</p>
-            <p className="text-2xl font-bold">1,300</p>
+            <p className="text-2xl font-bold">
+              {events
+                .filter((event) => event.status.toLowerCase() == "approved")
+                .reduce((acc, event) => acc + event.attendees.length, 0)}
+            </p>
           </div>
         </div>
       </div>
@@ -26,14 +36,16 @@ const OrgOverview = ({ events, getStatusIcon, getStatusColor }) => {
         <div className="space-y-4">
           {events.slice(0, 3).map((event) => (
             <div
-              key={event.id}
+              key={event._id}
               className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
             >
               <div className="flex items-center space-x-4">
                 {getStatusIcon(event.status)}
                 <div>
-                  <p className="font-medium">{event.name}</p>
-                  <p className="text-sm text-gray-500">{event.date}</p>
+                  <p className="font-medium">{event.title}</p>
+                  <p className="text-sm text-gray-500">
+                    {event.date.split("T")[0]} {event.time}
+                  </p>
                 </div>
               </div>
               <span
