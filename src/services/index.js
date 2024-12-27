@@ -1,5 +1,6 @@
 export { login, register } from "./auth";
 export {
+  createEvent,
   getEvents,
   getEventById,
   registerEvent,

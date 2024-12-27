@@ -24,7 +24,9 @@ export default function Home() {
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 items-end">
           {events?.map((event, key) => {
-            return <UpcomingEventCard key={key} event={event} />;
+            if (event.status != "Declined") {
+              return <UpcomingEventCard key={key} event={event} />;
+            }
           })}
         </div>
       </div>

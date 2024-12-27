@@ -65,6 +65,7 @@ const OrganizerLayout = () => {
     <div className="min-h-screen bg-gray-50">
       <div className="p-4">
         <Outlet />
+        <Toaster />
       </div>
     </div>
   );

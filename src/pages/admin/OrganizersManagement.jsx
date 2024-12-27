@@ -7,36 +7,38 @@ export default function UsersManagement() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState("all");
   const [selectedStatus, setSelectedStatus] = useState("all");
-  const [users, setUsers] = useState([]);
+  const [organizers, setOrganizers] = useState([]);
 
   useEffect(() => {
     async function fetchApi() {
       const data = await getOrganizers();
-      setUsers(data.users);
-      console.log(data.users);
+      setOrganizers(data.organizers);
+      console.log(data.organizers);
     }
     fetchApi();
   }, []);
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredUsers = users.filter((user) => {
+  const filteredUsers = organizers.filter((organizer) => {
     const matchesSearch =
-      user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase());
+    organizer.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    organizer.email.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRole =
       selectedRole === "all" ||
-      user.role.toLowerCase() === selectedRole.toLowerCase();
+      organizer.role.toLowerCase() === selectedRole.toLowerCase();
     const matchesStatus =
-      selectedStatus === "all" || user.status === selectedStatus;
+      selectedStatus === "all" || organizer.status === selectedStatus;
     return matchesSearch && matchesRole && matchesStatus;
   });
 
-  const handleDeleteUser = async (userID) => {
+  const handleDeleteUser = async (organizerID) => {
     try {
-      await deleteUser(userID);
-      setUsers(users.filter((user) => user._id !== userID));
-      toast.success("User deleted successfully");
+      await deleteUser(organizerID);
+      setOrganizers(
+        organizers.filter((organizer) => organizer._id !== organizerID)
+      );
+      toast.success("organizer deleted successfully");
     } catch (error) {
       console.log(error);
       toast.error(error.message);
