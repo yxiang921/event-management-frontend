@@ -1,7 +1,7 @@
 import axiosInstance from "./axiosInstance";
 
 export const createEvent = async (eventData) => {
-  console.log("This is event api",eventData)
+  console.log("This is event api", eventData);
   try {
     const response = await axiosInstance.post("event/create", {
       eventData,

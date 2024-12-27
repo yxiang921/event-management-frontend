@@ -1,7 +1,24 @@
 /* eslint-disable react/prop-types */
 import { Filter, Search } from "lucide-react";
+import { useEffect, useState } from "react";
+import { getEvents } from "../../services/event";
 
-const OrgEventList = ({ events, getStatusColor }) => {
+const OrgEventList = ({ getStatusColor }) => {
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    async function fetchAPI() {
+      try {
+        const data = await getEvents();
+        setEvents(data.events);
+        console.log(events);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchAPI();
+  }, []);
   return (
     <div className="bg-white rounded-lg shadow-sm">
       <div className="p-6 border-b border-gray-200">
@@ -30,6 +47,9 @@ const OrgEventList = ({ events, getStatusColor }) => {
                 Event Name
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                Description
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                 Date
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
@@ -44,22 +64,29 @@ const OrgEventList = ({ events, getStatusColor }) => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {events.map((event) => (
-              <tr key={event.id} className="hover:bg-gray-50">
+            {events?.map((event) => (
+              <tr key={event._id} className="hover:bg-gray-50 cursor-pointer">
                 <td className="px-6 py-4">
-                  <div className="font-medium">{event.name}</div>
-                  <div className="text-sm text-gray-500">
+                  <a
+                    href={`/organizer/event/${event._id}`}
+                    className="font-medium hover:text-primary-900"
+                  >
+                    {event.title}
+                  </a>
+                </td>
+                <td className="px-6 py-4">
+                  <div className="font-medium text-gray-500">
                     {event.description}
                   </div>
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-500">
-                  {event.date}
+                  {event.date.split("T")[0]}
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-500">
                   {event.location}
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-500">
-                  {event.attendees}
+                  {event.attendees.length}
                 </td>
                 <td className="px-6 py-4">
                   <span

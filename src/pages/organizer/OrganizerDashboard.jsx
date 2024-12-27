@@ -6,47 +6,33 @@ import {
   OrgOverview,
 } from "../../components";
 import { useOrgHeader } from "../../context/OrgHeaderContext";
+import { getEvents } from "../../services/event";
+import { useEffect, useState } from "react";
 
 const OrganizerDashboard = () => {
   const { activeTab } = useOrgHeader();
+  const [events, setEvents] = useState([]);
 
-  const events = [
-    {
-      id: 1,
-      name: "Tech Conference 2024",
-      date: "2024-12-15",
-      attendees: 250,
-      status: "Pending Approval",
-      description: "Annual technology conference featuring industry leaders",
-      location: "Convention Center",
-    },
-    {
-      id: 2,
-      name: "Music Festival",
-      date: "2024-12-20",
-      attendees: 1000,
-      status: "Approved",
-      description: "Three-day music festival with multiple stages",
-      location: "City Park",
-    },
-    {
-      id: 3,
-      name: "Corporate Workshop",
-      date: "2024-12-10",
-      attendees: 50,
-      status: "Rejected",
-      description: "Leadership development workshop",
-      location: "Business Center",
-    },
-  ];
+  useEffect(() => {
+    async function fetchAPI() {
+      try {
+        const data = await getEvents();
+        setEvents(data.events);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchAPI();
+  }, []);
 
   const getStatusColor = (status) => {
     switch (status) {
       case "Approved":
         return "bg-green-100 text-green-800";
-      case "Pending Approval":
+      case "Pending":
         return "bg-yellow-100 text-yellow-800";
-      case "Rejected":
+      case "Declined":
         return "bg-red-100 text-red-800";
       default:
         return "bg-gray-100 text-gray-800";
@@ -57,9 +43,9 @@ const OrganizerDashboard = () => {
     switch (status) {
       case "Approved":
         return <CheckCircle className="h-5 w-5 text-green-500" />;
-      case "Pending Approval":
+      case "Pending":
         return <Clock className="h-5 w-5 text-yellow-500" />;
-      case "Rejected":
+      case "Declined":
         return <XCircle className="h-5 w-5 text-red-500" />;
       default:
         return null;
