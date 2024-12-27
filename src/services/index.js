@@ -7,6 +7,7 @@ export {
   getEventAttendees,
   getRegisteredEvents,
   decideEvent,
+  deleteEvent,
 } from "./event";
 export { getUsers, getUserByID, deleteUser } from "./user";
 export { getOrganizers, getOrganizerByID, deleteOrganizer } from "./organizer";

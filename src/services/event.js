@@ -79,3 +79,12 @@ export const decideEvent = async (eventID, status) => {
     throw new Error(error.response?.data?.message || "Failed to approve event");
   }
 };
+
+export const deleteEvent = async (eventID) => {
+  try {
+    const response = await axiosInstance.delete(`event/${eventID}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Failed to delete event");
+  }
+};
