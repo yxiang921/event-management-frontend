@@ -11,7 +11,7 @@ import {
   deleteEvent,
   getAttendance,
   getEventById,
-  getUserByID,
+  signAttendance,
 } from "../../services";
 import { useParams } from "react-router-dom";
 
@@ -49,6 +49,19 @@ const OrgEventDetail = () => {
 
     fetchAPI();
   }, [id]);
+
+  const handleSign = async (userID) => {
+    const response = await signAttendance(id, userID);
+    console.log(response);
+
+    setAttendees((prevAttendees) =>
+      prevAttendees.map((attendee) =>
+        attendee._id === userID
+          ? { ...attendee, attendStatus: "Present" }
+          : attendee
+      )
+    );
+  };
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
@@ -207,7 +220,7 @@ const OrgEventDetail = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {attendees?.map((attendee) => (
+                {filteredAttendees?.map((attendee) => (
                   <tr key={attendee._id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 text-sm font-medium">
                       {attendee.username}
@@ -236,7 +249,7 @@ const OrgEventDetail = () => {
                     <td>
                       <button
                         onClick={() => {
-                          // signAttendance(attendee._id);
+                          handleSign(attendee._id);
                         }}
                         disabled={
                           attendee.attendStatus?.toLowerCase() === "present"
@@ -247,7 +260,7 @@ const OrgEventDetail = () => {
                             : "px-4 py-2 bg-green-600 text-white rounded-lg"
                         }
                       >
-                        Present
+                        Sign
                       </button>
                     </td>
                   </tr>
