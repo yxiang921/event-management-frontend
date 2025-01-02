@@ -7,51 +7,28 @@ import {
   ScanQrCode,
   Users,
 } from "lucide-react";
-import { deleteEvent, getEventById } from "../../services";
+import {
+  deleteEvent,
+  getAttendance,
+  getEventById,
+  getUserByID,
+} from "../../services";
 import { useParams } from "react-router-dom";
 
 const OrgEventDetail = () => {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [event, setEvent] = useState([]);
-  const { id } = useParams();
-  const attendees = [
-    {
-      id: 1,
-      name: "Alice Johnson",
-      email: "alice@example.com",
-      status: "present",
-      checkInTime: "09:15 AM",
-    },
-    {
-      id: 2,
-      name: "Bob Smith",
-      email: "bob@example.com",
-      status: "absent",
-      checkInTime: null,
-    },
-    {
-      id: 3,
-      name: "Carol Williams",
-      email: "carol@example.com",
-      status: "present",
-      checkInTime: "09:05 AM",
-    },
-    {
-      id: 4,
-      name: "David Brown",
-      email: "david@example.com",
-      status: "pending",
-      checkInTime: null,
-    },
-  ];
+  const [attendees, setAttendees] = useState([]);
 
-  const filteredAttendees = attendees.filter((attendee) => {
+  const { id } = useParams();
+
+  const filteredAttendees = attendees?.filter((attendee) => {
     const matchesFilter =
       selectedFilter === "all" || attendee.status === selectedFilter;
     const matchesSearch =
-      attendee.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      attendee.email.toLowerCase().includes(searchTerm.toLowerCase());
+      attendee.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      attendee.email?.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesFilter && matchesSearch;
   });
 
@@ -59,8 +36,15 @@ const OrgEventDetail = () => {
     async function fetchAPI() {
       const response = await getEventById(id);
       const data = response.event;
-      console.log(data);
+
+      const attendance = await getAttendance(id);
+      const attendees = attendance.attendees;
+
       setEvent(data);
+      setAttendees(attendees);
+
+      console.log(data);
+      console.log(attendees);
     }
 
     fetchAPI();
@@ -223,10 +207,10 @@ const OrgEventDetail = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {filteredAttendees.map((attendee) => (
-                  <tr key={attendee.id} className="hover:bg-gray-50">
+                {attendees?.map((attendee) => (
+                  <tr key={attendee._id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 text-sm font-medium">
-                      {attendee.name}
+                      {attendee.username}
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-500">
                       {attendee.email}
@@ -234,27 +218,35 @@ const OrgEventDetail = () => {
                     <td className="px-6 py-4">
                       <span
                         className={`px-2 py-1 text-xs rounded-full ${
-                          attendee.status === "present"
+                          attendee.attendStatus === "Present"
                             ? "bg-green-100 text-green-800"
-                            : attendee.status === "absent"
+                            : attendee.attendStatus === "Absent"
                             ? "bg-red-100 text-red-800"
                             : "bg-yellow-100 text-yellow-800"
                         }`}
                       >
-                        {attendee.status.charAt(0).toUpperCase() +
-                          attendee.status.slice(1)}
+                        {attendee.attendStatus.charAt(0).toUpperCase() +
+                          attendee.attendStatus.slice(1)}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-500">
-                      {attendee.checkInTime || "-"}
+                      {attendee.checkInTime?.split("T")[0] || "-"}{" "}
+                      {attendee.checkInTime?.split("T")[1]?.split(".")[0] || ""}
                     </td>
                     <td>
                       <button
-                      onClick={() => {
-                        console.log(`Marking ${attendee.name} as present`);
-                      }}
-                      // {attendee === "present" ? "disabled" : ""}
-                      className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                        onClick={() => {
+                          // signAttendance(attendee._id);
+                        }}
+                        disabled={
+                          attendee.attendStatus?.toLowerCase() === "present"
+                        }
+                        className={
+                          attendee.attendStatus?.toLowerCase() === "present"
+                            ? "px-4 py-2 bg-gray-300 text-gray-600 rounded-lg"
+                            : "px-4 py-2 bg-green-600 text-white rounded-lg"
+                        }
+                      >
                         Present
                       </button>
                     </td>

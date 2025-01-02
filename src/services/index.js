@@ -11,3 +11,4 @@ export {
 } from "./event";
 export { getUsers, getUserByID, deleteUser } from "./user";
 export { getOrganizers, getOrganizerByID, deleteOrganizer } from "./organizer";
+export { getAttendance } from "./attendance";
