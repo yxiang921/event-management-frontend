@@ -25,7 +25,8 @@ const OrgEventDetail = () => {
 
   const filteredAttendees = attendees?.filter((attendee) => {
     const matchesFilter =
-      selectedFilter === "all" || attendee.status === selectedFilter;
+      selectedFilter === "all" ||
+      attendee.attendStatus.toLowerCase() === selectedFilter;
     const matchesSearch =
       attendee.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       attendee.email?.toLowerCase().includes(searchTerm.toLowerCase());
@@ -191,7 +192,6 @@ const OrgEventDetail = () => {
                 <option value="all">All</option>
                 <option value="present">Present</option>
                 <option value="absent">Absent</option>
-                <option value="pending">Pending</option>
               </select>
               <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
                 <span>Export</span>
